@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct RocketLaunch {
+struct RocketLaunch: Decodable {
     let id: String
     let name: String
-    let detail: String
-    let success: Bool
-    let date: String
+    let details: String?
+    let success: Bool?
+    let date_utc: String
 }

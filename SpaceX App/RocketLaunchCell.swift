@@ -14,7 +14,7 @@ class RocketLaunchCell: UICollectionViewCell {
     var rocketLaunch: RocketLaunch? {
         didSet {
             nameLabel.text = rocketLaunch?.name
-            detailLabel.text = rocketLaunch?.detail
+            detailLabel.text = rocketLaunch?.details
         }
     }
     
