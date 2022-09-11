@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */; };
-		DEB0DC0628CE053C00F77F0F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0528CE053C00F77F0F /* SceneDelegate.swift */; };
 		DEB0DC0828CE053C00F77F0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0728CE053C00F77F0F /* ViewController.swift */; };
-		DEB0DC0B28CE053C00F77F0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0928CE053C00F77F0F /* Main.storyboard */; };
 		DEB0DC0D28CE053E00F77F0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */; };
 		DEB0DC1028CE053E00F77F0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,9 +16,7 @@
 /* Begin PBXFileReference section */
 		DEB0DC0028CE053C00F77F0F /* SpaceX App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpaceX App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DEB0DC0528CE053C00F77F0F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DEB0DC0728CE053C00F77F0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DEB0DC0A28CE053C00F77F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEB0DC0F28CE053E00F77F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEB0DC1128CE053E00F77F0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,9 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */,
-				DEB0DC0528CE053C00F77F0F /* SceneDelegate.swift */,
 				DEB0DC0728CE053C00F77F0F /* ViewController.swift */,
-				DEB0DC0928CE053C00F77F0F /* Main.storyboard */,
 				DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */,
 				DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */,
 				DEB0DC1128CE053E00F77F0F /* Info.plist */,
@@ -127,7 +121,6 @@
 			files = (
 				DEB0DC1028CE053E00F77F0F /* LaunchScreen.storyboard in Resources */,
 				DEB0DC0D28CE053E00F77F0F /* Assets.xcassets in Resources */,
-				DEB0DC0B28CE053C00F77F0F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,21 +133,12 @@
 			files = (
 				DEB0DC0828CE053C00F77F0F /* ViewController.swift in Sources */,
 				DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */,
-				DEB0DC0628CE053C00F77F0F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DEB0DC0928CE053C00F77F0F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DEB0DC0A28CE053C00F77F0F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +276,6 @@
 				INFOPLIST_FILE = "SpaceX App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +303,6 @@
 				INFOPLIST_FILE = "SpaceX App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
