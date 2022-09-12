@@ -14,17 +14,18 @@ class MainViewController: UIViewController {
     
     private var rocketLaunches = [RocketLaunch]() {
         didSet {
-            launchesCollectionView.reloadData()
+            tableView.reloadData()
         }
     }
     
-    private lazy var launchesCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(RocketLaunchCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .singleLine
+        tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.dataSource = self
         
-        return collectionView
+        return tableView
     }()
 
     override func viewDidLoad() {
@@ -45,41 +46,26 @@ class MainViewController: UIViewController {
     }
     
     private func layout() {
-        view.addSubview(launchesCollectionView)
-        launchesCollectionView.fill(view)
+        view.addSubview(tableView)
+        tableView.constrain(
+            top: view.topAnchor,
+            leading: view.safeAreaLayoutGuide.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.safeAreaLayoutGuide.trailingAnchor
+        )
     }
 }
 
-//MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UITableViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var width = collectionView.frame.width - 2 * 12
-        
-        if width > 350 {
-            width = 350
-        }
-        
-        return CGSize(width: width, height: 140)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 24, left: 12, bottom: 24, right: 12)
-    }
-}
-
-//MARK: - UICollectionViewDataSource
-extension MainViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rocketLaunches.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! RocketLaunchCell
-        
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! RocketLaunchCell
         cell.rocketLaunch = rocketLaunches[indexPath.row]
-        
         return cell
     }
 }

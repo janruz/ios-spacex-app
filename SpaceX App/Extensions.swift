@@ -50,6 +50,6 @@ extension UIView {
     
     func fill(_ view: UIView, withPaddingOf padding: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
-        constrain(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, constantTop: padding, constantLeading: padding, constantBottom: -padding, constantTrailing: -padding)
+        constrain(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, constantTop: padding, constantLeading: padding, constantBottom: -padding, constantTrailing: -padding)
     }
 }

@@ -7,18 +7,21 @@
 
 import UIKit
 
-class RocketLaunchCell: UICollectionViewCell {
+class RocketLaunchCell: UITableViewCell {
     
     //MARK: - Properties
     
     var rocketLaunch: RocketLaunch? {
         didSet {
+            upcomingIcon.image = rocketLaunch?.upcoming == true ? UIImage(systemName: "clock.fill") : UIImage(systemName: "checkmark.circle.fill")
             nameLabel.text = rocketLaunch?.name
             detailLabel.text = rocketLaunch?.details
         }
     }
     
-    let nameLabel: UILabel = {
+    private let upcomingIcon = UIImageView()
+    
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 1
@@ -26,18 +29,18 @@ class RocketLaunchCell: UICollectionViewCell {
         return label
     }()
     
-    let detailLabel: UILabel = {
+    private let detailLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 1
+        label.numberOfLines = 3
         
         return label
     }()
     
     //MARK: - Lifecycle
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureUI()
     }
@@ -49,19 +52,36 @@ class RocketLaunchCell: UICollectionViewCell {
     //MARK: - Layout
     
     private func configureUI() {
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
-        backgroundColor = .secondarySystemBackground
+        addSubview(upcomingIcon)
+        upcomingIcon.constrain(
+            top: topAnchor,
+            leading: leadingAnchor,
+            constantTop: 12,
+            constantLeading: 12,
+            widthConstant: 24,
+            heightConstant: 24
+        )
         
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.distribution = .fillProportionally
+        addSubview(nameLabel)
+        nameLabel.constrain(
+            top: upcomingIcon.bottomAnchor,
+            leading: leadingAnchor,
+            trailing: trailingAnchor,
+            constantTop: 8,
+            constantLeading: 12,
+            constantTrailing: -12
+        )
         
-        stack.addArrangedSubview(nameLabel)
-        stack.addArrangedSubview(detailLabel)
-        
-        addSubview(stack)
-        stack.fill(self, withPaddingOf: 12)
+        addSubview(detailLabel)
+        detailLabel.constrain(
+            top: nameLabel.bottomAnchor,
+            leading: leadingAnchor,
+            bottom: bottomAnchor,
+            trailing: trailingAnchor,
+            constantTop: 12,
+            constantLeading: 12,
+            constantBottom: -12,
+            constantTrailing: -12
+        )
     }
 }

@@ -12,5 +12,6 @@ struct RocketLaunch: Decodable {
     let name: String
     let details: String?
     let success: Bool?
+    let upcoming: Bool
     let date_utc: String
 }
