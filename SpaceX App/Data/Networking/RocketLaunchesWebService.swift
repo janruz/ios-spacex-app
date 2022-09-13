@@ -14,8 +14,10 @@ struct RocketLaunchesWebService {
     
     private init() {}
     
-    func getLaunches() async -> Result<[RocketLaunch], Error> {
-        let response = await AF.request("https://api.spacexdata.com/v5/launches", method: .get).serializingDecodable([RocketLaunch].self).response
+    func getLaunches() async -> Result<[RocketLaunchFromApi], Error> {
+        let response = await AF.request("https://api.spacexdata.com/v5/launches", method: .get).serializingDecodable([RocketLaunchFromApi].self).response
+        
+        
         
         return response.result.mapError { afError in
             return afError as Error

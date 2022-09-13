@@ -23,7 +23,7 @@ class RocketLaunchCell: UITableViewCell {
             var successText = ""
             var successTintColor = UIColor.systemBlue
             
-            if let success = rocketLaunch?.success {
+            if let success = rocketLaunch?.successful {
                 
                 if success {
                     successIconImageName = "checkmark.seal.fill"

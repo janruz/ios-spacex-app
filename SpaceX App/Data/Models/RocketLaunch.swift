@@ -7,11 +7,36 @@
 
 import Foundation
 
-struct RocketLaunch: Decodable {
+struct RocketLaunch {
+    let id: String
+    let name: String
+    let details: String?
+    let successful: Bool?
+    let upcoming: Bool
+    let date: String
+}
+
+struct RocketLaunchFromApi: Decodable {
     let id: String
     let name: String
     let details: String?
     let success: Bool?
     let upcoming: Bool
     let date_utc: String
+}
+
+extension Array where Element == RocketLaunchFromApi {
+    
+    var asRocketLaunches: [RocketLaunch] {
+        map { source in
+            RocketLaunch(
+                id: source.id,
+                name: source.name,
+                details: source.details,
+                successful: source.success,
+                upcoming: source.upcoming,
+                date: source.date_utc
+            )
+        }
+    }
 }

@@ -14,6 +14,6 @@ struct RocketLaunchesRepository {
     private init() {}
     
     func getLaunches() async -> Result<[RocketLaunch], Error> {
-        return await RocketLaunchesWebService.shared.getLaunches()
+        return await RocketLaunchesWebService.shared.getLaunches().map { $0.asRocketLaunches }
     }
 }
