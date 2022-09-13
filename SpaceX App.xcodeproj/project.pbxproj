@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DE40779228CF376C00EDB68D /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE40779128CF376C00EDB68D /* IconLabelView.swift */; };
+		DEA0E7FB28D0CB930095C8FD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */; };
 		DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */; };
-		DEB0DC0828CE053C00F77F0F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0728CE053C00F77F0F /* MainViewController.swift */; };
+		DEB0DC0828CE053C00F77F0F /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */; };
 		DEB0DC0D28CE053E00F77F0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */; };
 		DEB0DC1028CE053E00F77F0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */; };
 		DEB0DC1828CE763E00F77F0F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC1728CE763E00F77F0F /* Extensions.swift */; };
@@ -22,9 +23,10 @@
 
 /* Begin PBXFileReference section */
 		DE40779128CF376C00EDB68D /* IconLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
+		DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DEB0DC0028CE053C00F77F0F /* SpaceX App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpaceX App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DEB0DC0728CE053C00F77F0F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEB0DC0F28CE053E00F77F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEB0DC1128CE053E00F77F0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,7 +70,8 @@
 			children = (
 				DEB0DC2028CE95C100F77F0F /* Model */,
 				DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */,
-				DEB0DC0728CE053C00F77F0F /* MainViewController.swift */,
+				DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */,
+				DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */,
 				DEB0DC1928CE771F00F77F0F /* RocketLaunch.swift */,
 				DEB0DC1728CE763E00F77F0F /* Extensions.swift */,
 				DEB0DC1B28CE787F00F77F0F /* RocketLaunchCell.swift */,
@@ -182,9 +185,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEB0DC1C28CE787F00F77F0F /* RocketLaunchCell.swift in Sources */,
-				DEB0DC0828CE053C00F77F0F /* MainViewController.swift in Sources */,
+				DEB0DC0828CE053C00F77F0F /* LaunchesViewController.swift in Sources */,
 				DE40779228CF376C00EDB68D /* IconLabelView.swift in Sources */,
 				DEB0DC2628CE979500F77F0F /* RocketLaunchesRepository.swift in Sources */,
+				DEA0E7FB28D0CB930095C8FD /* MainViewController.swift in Sources */,
 				DEB0DC1828CE763E00F77F0F /* Extensions.swift in Sources */,
 				DEB0DC1A28CE771F00F77F0F /* RocketLaunch.swift in Sources */,
 				DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */,
