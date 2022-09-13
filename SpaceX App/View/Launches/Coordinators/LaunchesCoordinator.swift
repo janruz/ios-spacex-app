@@ -23,7 +23,7 @@ class LaunchesCoordinator: Coordinator, LaunchesNavigation {
     }
     
     func goToLaunchesList() {
-        let launchesListVC = LaunchesListViewController(navigation: self)
+        let launchesListVC = LaunchesListViewController(navigation: self, viewModel: LaunchesListViewModel())
         
         navigationController.pushViewController(launchesListVC, animated: true)
     }

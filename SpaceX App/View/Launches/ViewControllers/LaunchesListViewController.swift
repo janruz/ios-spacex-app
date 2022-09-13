@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 fileprivate let reuseIdentifier = "rocketLaunchCell"
 
@@ -15,27 +17,26 @@ class LaunchesListViewController: UIViewController {
     
     private let navigation: LaunchesNavigation
     
-    private var rocketLaunches = [RocketLaunch]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private let viewModel: LaunchesListViewModel
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
         tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.dataSource = self
-        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.delegate = self
         
         return tableView
     }()
     
+    private let disposeBag = DisposeBag()
+    
     //MARK: - Lifecycle
     
-    init(navigation: LaunchesNavigation) {
+    init(navigation: LaunchesNavigation, viewModel: LaunchesListViewModel) {
         self.navigation = navigation
+        self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,21 +50,12 @@ class LaunchesListViewController: UIViewController {
         
         navigationItem.title = "Rocket launches"
         configureUI()
-        
-        Task {
-            let result = await RocketLaunchesRepository.shared.getLaunches()
-            
-            switch result {
-            case .success(let launches):
-                self.rocketLaunches = launches
-            case .failure(_):
-                break
-            }
-        }
+        configureViewModel()
     }
     
     private func configureUI() {
         view.addSubview(tableView)
+        
         tableView.constrain(
             top: view.topAnchor,
             leading: view.safeAreaLayoutGuide.leadingAnchor,
@@ -71,24 +63,17 @@ class LaunchesListViewController: UIViewController {
             trailing: view.safeAreaLayoutGuide.trailingAnchor
         )
     }
-}
-
-extension LaunchesListViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rocketLaunches.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! RocketLaunchCell
-        cell.rocketLaunch = rocketLaunches[indexPath.row]
-        return cell
-    }
-}
-
-extension LaunchesListViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigation.goToLaunchDetail(of: rocketLaunches[indexPath.row])
+    private func configureViewModel() {
+        viewModel.fetchLaunches()
+        
+        viewModel.rocketLaunches.bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, model, cell in
+            (cell as! RocketLaunchCell).rocketLaunch = model
+        }.disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(RocketLaunch.self)
+           .subscribe(onNext: { [weak self] launch in
+               self?.navigation.goToLaunchDetail(of: launch)
+        }).disposed(by: disposeBag)
     }
 }
