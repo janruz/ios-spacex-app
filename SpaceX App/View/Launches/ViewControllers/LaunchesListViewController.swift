@@ -28,6 +28,8 @@ class LaunchesListViewController: UIViewController {
         return tableView
     }()
     
+    private let searchController = UISearchController()
+    
     private let disposeBag = DisposeBag()
     
     //MARK: - Lifecycle
@@ -47,6 +49,7 @@ class LaunchesListViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
+        navigationItem.searchController = searchController
         configureUI()
         configureViewModel()
     }
@@ -60,6 +63,15 @@ class LaunchesListViewController: UIViewController {
             bottom: view.bottomAnchor,
             trailing: view.safeAreaLayoutGuide.trailingAnchor
         )
+        
+        searchController.searchBar.rx.text
+            .orEmpty
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [unowned self] query in
+                self.viewModel.searchLaunches(with: query)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func configureViewModel() {
