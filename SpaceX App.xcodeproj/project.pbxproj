@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		DE40779228CF376C00EDB68D /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE40779128CF376C00EDB68D /* IconLabelView.swift */; };
-		DEA0E7FB28D0CB930095C8FD /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */; };
 		DEA0E7FD28D0D00F0095C8FD /* LaunchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */; };
+		DEA0E7FF28D0F2EB0095C8FD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FE28D0F2EB0095C8FD /* Coordinator.swift */; };
+		DEA0E80128D0F31D0095C8FD /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E80028D0F31D0095C8FD /* AppCoordinator.swift */; };
+		DEA0E80328D0F6230095C8FD /* LaunchesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E80228D0F6230095C8FD /* LaunchesCoordinator.swift */; };
+		DEA0E81328D0FA110095C8FD /* LaunchesNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E81228D0FA110095C8FD /* LaunchesNavigation.swift */; };
 		DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */; };
-		DEB0DC0828CE053C00F77F0F /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */; };
+		DEB0DC0828CE053C00F77F0F /* LaunchesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC0728CE053C00F77F0F /* LaunchesListViewController.swift */; };
 		DEB0DC0D28CE053E00F77F0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */; };
 		DEB0DC1028CE053E00F77F0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */; };
 		DEB0DC1828CE763E00F77F0F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB0DC1728CE763E00F77F0F /* Extensions.swift */; };
@@ -24,11 +27,14 @@
 
 /* Begin PBXFileReference section */
 		DE40779128CF376C00EDB68D /* IconLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
-		DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchDetailViewController.swift; sourceTree = "<group>"; };
+		DEA0E7FE28D0F2EB0095C8FD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		DEA0E80028D0F31D0095C8FD /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		DEA0E80228D0F6230095C8FD /* LaunchesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesCoordinator.swift; sourceTree = "<group>"; };
+		DEA0E81228D0FA110095C8FD /* LaunchesNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNavigation.swift; sourceTree = "<group>"; };
 		DEB0DC0028CE053C00F77F0F /* SpaceX App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpaceX App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
+		DEB0DC0728CE053C00F77F0F /* LaunchesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesListViewController.swift; sourceTree = "<group>"; };
 		DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEB0DC0F28CE053E00F77F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEB0DC1128CE053E00F77F0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,6 +57,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DEA0E80428D0F88D0095C8FD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DEB0DC1928CE771F00F77F0F /* RocketLaunch.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DEA0E80528D0F8B40095C8FD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DEA0E80928D0F9000095C8FD /* Launches */,
+				DEA0E80728D0F8CF0095C8FD /* Cells */,
+				DEA0E80628D0F8C40095C8FD /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DEA0E80628D0F8C40095C8FD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DE40779128CF376C00EDB68D /* IconLabelView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		DEA0E80728D0F8CF0095C8FD /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				DEB0DC1B28CE787F00F77F0F /* RocketLaunchCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		DEA0E80928D0F9000095C8FD /* Launches */ = {
+			isa = PBXGroup;
+			children = (
+				DEA0E81128D0F9FF0095C8FD /* Coordinators */,
+				DEA0E80C28D0F9680095C8FD /* ViewControllers */,
+			);
+			path = Launches;
+			sourceTree = "<group>";
+		};
+		DEA0E80C28D0F9680095C8FD /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */,
+				DEB0DC0728CE053C00F77F0F /* LaunchesListViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		DEA0E80E28D0F9A50095C8FD /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */,
+				DEA0E80028D0F31D0095C8FD /* AppCoordinator.swift */,
+				DEA0E7FE28D0F2EB0095C8FD /* Coordinator.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		DEA0E80F28D0F9B90095C8FD /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DEB0DC1728CE763E00F77F0F /* Extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		DEA0E81128D0F9FF0095C8FD /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				DEA0E80228D0F6230095C8FD /* LaunchesCoordinator.swift */,
+				DEA0E81228D0FA110095C8FD /* LaunchesNavigation.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 		DEB0DBF728CE053C00F77F0F = {
 			isa = PBXGroup;
 			children = (
@@ -70,15 +155,10 @@
 		DEB0DC0228CE053C00F77F0F /* SpaceX App */ = {
 			isa = PBXGroup;
 			children = (
-				DEB0DC2028CE95C100F77F0F /* Model */,
-				DEB0DC0328CE053C00F77F0F /* AppDelegate.swift */,
-				DEB0DC0728CE053C00F77F0F /* LaunchesViewController.swift */,
-				DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */,
-				DEA0E7FA28D0CB930095C8FD /* MainViewController.swift */,
-				DEB0DC1928CE771F00F77F0F /* RocketLaunch.swift */,
-				DEB0DC1728CE763E00F77F0F /* Extensions.swift */,
-				DE40779128CF376C00EDB68D /* IconLabelView.swift */,
-				DEB0DC1B28CE787F00F77F0F /* RocketLaunchCell.swift */,
+				DEA0E80E28D0F9A50095C8FD /* Application */,
+				DEB0DC2028CE95C100F77F0F /* Data */,
+				DEA0E80528D0F8B40095C8FD /* View */,
+				DEA0E80F28D0F9B90095C8FD /* Utilities */,
 				DEB0DC0C28CE053E00F77F0F /* Assets.xcassets */,
 				DEB0DC0E28CE053E00F77F0F /* LaunchScreen.storyboard */,
 				DEB0DC1128CE053E00F77F0F /* Info.plist */,
@@ -86,13 +166,14 @@
 			path = "SpaceX App";
 			sourceTree = "<group>";
 		};
-		DEB0DC2028CE95C100F77F0F /* Model */ = {
+		DEB0DC2028CE95C100F77F0F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				DEA0E80428D0F88D0095C8FD /* Models */,
 				DEB0DC2428CE978700F77F0F /* Repositories */,
 				DEB0DC2128CE95DB00F77F0F /* Networking */,
 			);
-			path = Model;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		DEB0DC2128CE95DB00F77F0F /* Networking */ = {
@@ -187,14 +268,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEA0E80128D0F31D0095C8FD /* AppCoordinator.swift in Sources */,
 				DEB0DC1C28CE787F00F77F0F /* RocketLaunchCell.swift in Sources */,
-				DEB0DC0828CE053C00F77F0F /* LaunchesViewController.swift in Sources */,
+				DEB0DC0828CE053C00F77F0F /* LaunchesListViewController.swift in Sources */,
+				DEA0E80328D0F6230095C8FD /* LaunchesCoordinator.swift in Sources */,
 				DEA0E7FD28D0D00F0095C8FD /* LaunchDetailViewController.swift in Sources */,
 				DE40779228CF376C00EDB68D /* IconLabelView.swift in Sources */,
 				DEB0DC2628CE979500F77F0F /* RocketLaunchesRepository.swift in Sources */,
-				DEA0E7FB28D0CB930095C8FD /* MainViewController.swift in Sources */,
+				DEA0E7FF28D0F2EB0095C8FD /* Coordinator.swift in Sources */,
 				DEB0DC1828CE763E00F77F0F /* Extensions.swift in Sources */,
 				DEB0DC1A28CE771F00F77F0F /* RocketLaunch.swift in Sources */,
+				DEA0E81328D0FA110095C8FD /* LaunchesNavigation.swift in Sources */,
 				DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */,
 				DEB0DC2328CE95FA00F77F0F /* RocketLaunchesWebService.swift in Sources */,
 			);

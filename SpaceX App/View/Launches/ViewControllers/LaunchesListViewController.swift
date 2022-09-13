@@ -9,7 +9,11 @@ import UIKit
 
 fileprivate let reuseIdentifier = "rocketLaunchCell"
 
-class LaunchesViewController: UIViewController {
+class LaunchesListViewController: UIViewController {
+    
+    //MARK: - Properties
+    
+    private let navigation: LaunchesNavigation
     
     private var rocketLaunches = [RocketLaunch]() {
         didSet {
@@ -27,7 +31,19 @@ class LaunchesViewController: UIViewController {
         
         return tableView
     }()
-
+    
+    //MARK: - Lifecycle
+    
+    init(navigation: LaunchesNavigation) {
+        self.navigation = navigation
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +73,7 @@ class LaunchesViewController: UIViewController {
     }
 }
 
-extension LaunchesViewController: UITableViewDataSource {
+extension LaunchesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rocketLaunches.count
@@ -70,12 +86,9 @@ extension LaunchesViewController: UITableViewDataSource {
     }
 }
 
-extension LaunchesViewController: UITableViewDelegate {
+extension LaunchesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(
-            LaunchDetailViewController(for: rocketLaunches[indexPath.row]),
-            animated: true
-        )
+        navigation.goToLaunchDetail(of: rocketLaunches[indexPath.row])
     }
 }

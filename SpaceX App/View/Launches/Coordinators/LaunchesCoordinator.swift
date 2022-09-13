@@ -1,0 +1,36 @@
+//
+//  LaunchesCoordinator.swift
+//  SpaceX App
+//
+//  Created by Jan Růžička on 13.09.2022.
+//
+
+import UIKit
+
+class LaunchesCoordinator: Coordinator, LaunchesNavigation {
+    
+    var parent: Coordinator?
+    
+    private var navigationController: UINavigationController
+    
+    init(navController : UINavigationController, parent: Coordinator?) {
+        self.navigationController = navController
+        self.parent = parent
+    }
+    
+    func start() {
+        goToLaunchesList()
+    }
+    
+    func goToLaunchesList() {
+        let launchesListVC = LaunchesListViewController(navigation: self)
+        
+        navigationController.pushViewController(launchesListVC, animated: true)
+    }
+    
+    func goToLaunchDetail(of rocketLaunch: RocketLaunch) {
+        let launchDetailVC = LaunchDetailViewController(for: rocketLaunch)
+        
+        navigationController.pushViewController(launchDetailVC, animated: true)
+    }
+}
