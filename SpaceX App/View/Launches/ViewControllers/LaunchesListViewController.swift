@@ -65,8 +65,8 @@ class LaunchesListViewController: UIViewController {
     private func configureViewModel() {
         viewModel.fetchLaunches()
         
-        viewModel.rocketLaunches.bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, model, cell in
-            (cell as! RocketLaunchCell).rocketLaunch = model
+        viewModel.rocketLaunches.bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, launch, cell in
+            (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(RocketLaunch.self)

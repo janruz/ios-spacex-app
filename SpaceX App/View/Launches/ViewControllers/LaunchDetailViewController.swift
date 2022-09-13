@@ -11,7 +11,7 @@ class LaunchDetailViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let rocketLaunch: RocketLaunch
+    private let viewData: RocketLaunchViewData
     
     private let detailLabel: UILabel = {
         let label = UILabel()
@@ -28,11 +28,11 @@ class LaunchDetailViewController: UIViewController {
     //MARK: - Lifecycle
     
     init(for rocketLaunch: RocketLaunch) {
-        self.rocketLaunch = rocketLaunch
+        viewData = RocketLaunchViewData(from: rocketLaunch)
         
         super.init(nibName: nil, bundle: nil)
         
-        navigationItem.title = self.rocketLaunch.name
+        navigationItem.title = viewData.name
     }
     
     required init?(coder: NSCoder) {
@@ -44,16 +44,17 @@ class LaunchDetailViewController: UIViewController {
         
         configureUI()
     
-        detailLabel.text = self.rocketLaunch.details
+        detailLabel.text = viewData.details
+        
         upcomingIconLabel.setUp(
-            systemImageName: "clock.fill",
-            text: NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label"),
-            tintColor: .systemOrange
+            systemImageName: viewData.upcomingIconName,
+            text: viewData.upcomingLabelText,
+            tintColor: viewData.upcomingColor
         )
         successIconLabel.setUp(
-            systemImageName: "checkmark.seal.fill",
-            text: NSLocalizedString(Strings.RocketLaunches.successful, comment: "Successful rocket launch label"),
-            tintColor: .systemGreen
+            systemImageName: viewData.successIconName,
+            text: viewData.successLabelText,
+            tintColor: viewData.successColor
         )
     }
     

@@ -11,45 +11,24 @@ class RocketLaunchCell: UITableViewCell {
     
     //MARK: - Properties
     
-    var rocketLaunch: RocketLaunch? {
+    var viewData: RocketLaunchViewData? {
         didSet {
+            guard let safeViewData = viewData else { return }
+            
+            nameLabel.text = safeViewData.name
+            detailLabel.text = safeViewData.details
+            
             upcomingIconLabel.setUp(
-                systemImageName: rocketLaunch?.upcoming == true ? "clock.fill" : "clock.badge.checkmark.fill",
-                text: rocketLaunch?.upcoming == true ? NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label") : NSLocalizedString(Strings.RocketLaunches.past, comment: "Past rocket launch label"),
-                tintColor: rocketLaunch?.upcoming == true ? .systemOrange : .systemBlue
+                systemImageName: safeViewData.upcomingIconName,
+                text: safeViewData.upcomingLabelText,
+                tintColor: safeViewData.upcomingColor
             )
-            
-            var successIconImageName = ""
-            var successText = ""
-            var successTintColor = UIColor.systemBlue
-            
-            if let success = rocketLaunch?.successful {
-                
-                if success {
-                    successIconImageName = "checkmark.seal.fill"
-                    successText = NSLocalizedString(Strings.RocketLaunches.successful, comment: "Successful rocket launch label")
-                    successTintColor = .systemGreen
-                    
-                } else {
-                    successIconImageName = "clear.fill"
-                    successText = NSLocalizedString(Strings.RocketLaunches.failed, comment: "Failed rocket launch label")
-                    successTintColor = .systemRed
-                }
-                
-            } else {
-                successIconImageName = "questionmark.circle.fill"
-                successText = NSLocalizedString(Strings.RocketLaunches.statusUnknown, comment: "Label for rocket launch with unknown status (success/failure)")
-                successTintColor = .systemYellow
-            }
             
             successIconLabel.setUp(
-                systemImageName: successIconImageName,
-                text: successText,
-                tintColor: successTintColor
+                systemImageName: safeViewData.successIconName,
+                text: safeViewData.successLabelText,
+                tintColor: safeViewData.successColor
             )
-
-            nameLabel.text = rocketLaunch?.name
-            detailLabel.text = rocketLaunch?.details
         }
     }
     
