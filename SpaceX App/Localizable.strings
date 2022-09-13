@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  SpaceX App
+
+  Created by Jan Růžička on 13.09.2022.
+  
+*/
+"rocketLaunchesTitle" = "Rocket Launches";
+"rocketLaunchUpcoming" = "Upcoming";
+"rocketLaunchPast" = "Past";
+"rocketLaunchSuccessful" = "Successful";
+"rocketLaunchFailed" = "Failed";
+"rocketLaunchStatusUnknown" = "Unknown";

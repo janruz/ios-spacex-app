@@ -45,8 +45,16 @@ class LaunchDetailViewController: UIViewController {
         configureUI()
     
         detailLabel.text = self.rocketLaunch.details
-        upcomingIconLabel.setUp(systemImageName: "clock.fill", text: "Upcoming", tintColor: .systemOrange)
-        successIconLabel.setUp(systemImageName: "checkmark.seal.fill", text: "Successful", tintColor: .systemGreen)
+        upcomingIconLabel.setUp(
+            systemImageName: "clock.fill",
+            text: NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label"),
+            tintColor: .systemOrange
+        )
+        successIconLabel.setUp(
+            systemImageName: "checkmark.seal.fill",
+            text: NSLocalizedString(Strings.RocketLaunches.successful, comment: "Successful rocket launch label"),
+            tintColor: .systemGreen
+        )
     }
     
     //MARK: - Layout

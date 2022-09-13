@@ -24,8 +24,6 @@ class LaunchesListViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
         tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
-//        tableView.dataSource = self
-//        tableView.delegate = self
         
         return tableView
     }()
@@ -48,7 +46,7 @@ class LaunchesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Rocket launches"
+        navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
         configureUI()
         configureViewModel()
     }

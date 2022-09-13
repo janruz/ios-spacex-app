@@ -15,7 +15,7 @@ class RocketLaunchCell: UITableViewCell {
         didSet {
             upcomingIconLabel.setUp(
                 systemImageName: rocketLaunch?.upcoming == true ? "clock.fill" : "clock.badge.checkmark.fill",
-                text: rocketLaunch?.upcoming == true ? "Upcoming" : "Past",
+                text: rocketLaunch?.upcoming == true ? NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label") : NSLocalizedString(Strings.RocketLaunches.past, comment: "Past rocket launch label"),
                 tintColor: rocketLaunch?.upcoming == true ? .systemOrange : .systemBlue
             )
             
@@ -27,18 +27,18 @@ class RocketLaunchCell: UITableViewCell {
                 
                 if success {
                     successIconImageName = "checkmark.seal.fill"
-                    successText = "Successful"
+                    successText = NSLocalizedString(Strings.RocketLaunches.successful, comment: "Successful rocket launch label")
                     successTintColor = .systemGreen
                     
                 } else {
                     successIconImageName = "clear.fill"
-                    successText = "Failed"
+                    successText = NSLocalizedString(Strings.RocketLaunches.failed, comment: "Failed rocket launch label")
                     successTintColor = .systemRed
                 }
                 
             } else {
                 successIconImageName = "questionmark.circle.fill"
-                successText = "Unknown"
+                successText = NSLocalizedString(Strings.RocketLaunches.statusUnknown, comment: "Label for rocket launch with unknown status (success/failure)")
                 successTintColor = .systemYellow
             }
             
