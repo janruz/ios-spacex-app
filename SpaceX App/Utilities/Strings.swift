@@ -17,6 +17,13 @@ struct Strings {
         static let successful = "rocketLaunchSuccessful"
         static let failed = "rocketLaunchFailed"
         static let statusUnknown = "rocketLaunchStatusUnknown"
+        
+        struct Sorting {
+            static let title = "selectRocketLaunchesSortOrder"
+            static let byDateAsc = "rocketLaunchesSortOrderDateAsc"
+            static let byDateDesc = "rocketLaunchesSortOrderDateDesc"
+        }
     }
     
+    static let cancel = "cancel"
 }

@@ -11,3 +11,7 @@
 "rocketLaunchSuccessful" = "Successful";
 "rocketLaunchFailed" = "Failed";
 "rocketLaunchStatusUnknown" = "Unknown";
+"selectRocketLaunchesSortOrder" = "Select launches order";
+"rocketLaunchesSortOrderDateAsc" = "Date ascending";
+"rocketLaunchesSortOrderDateDesc" = "Date descending";
+"cancel" = "Cancel";

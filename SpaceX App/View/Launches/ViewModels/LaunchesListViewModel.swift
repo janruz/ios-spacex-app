@@ -17,6 +17,8 @@ class LaunchesListViewModel {
     
     private var searchQuery = ""
     
+    private var sortOrder = RocketLaunchSortOrder.dateDesc
+    
     func fetchLaunches() {
         Task {
             let result = await RocketLaunchesRepository.shared.getLaunches()
@@ -36,8 +38,30 @@ class LaunchesListViewModel {
         publishRocketLaunches()
     }
     
+    func order(by newSortOrder: RocketLaunchSortOrder) {
+        sortOrder = newSortOrder
+        publishRocketLaunches()
+    }
+    
     private func publishRocketLaunches() {
-        let filtered = searchQuery.isEmpty ? allRocketLaunches : allRocketLaunches.filter { $0.name.contains(searchQuery) }
+        let filtered = allRocketLaunches
+            .filter {
+                searchQuery.isEmpty ? true : $0.name.contains(searchQuery)
+            }
+            .sorted {
+                switch self.sortOrder {
+                case .dateDesc:
+                    return $0.date > $1.date
+                case .dateAsc:
+                    return $0.date < $1.date
+                }
+            }
+        
         rocketLaunches.accept(filtered)
     }
+}
+
+enum RocketLaunchSortOrder {
+    case dateAsc
+    case dateDesc
 }

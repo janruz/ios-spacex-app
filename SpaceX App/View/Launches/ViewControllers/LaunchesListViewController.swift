@@ -50,9 +50,13 @@ class LaunchesListViewController: UIViewController {
         
         navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
         navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Order", style: .plain, target: self, action: #selector(orderButtonTapped))
+        
         configureUI()
         configureViewModel()
     }
+    
+    //MARK: - Layout
     
     private func configureUI() {
         view.addSubview(tableView)
@@ -82,8 +86,49 @@ class LaunchesListViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(RocketLaunch.self)
-           .subscribe(onNext: { [weak self] launch in
-               self?.navigation.goToLaunchDetail(of: launch)
-        }).disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] launch in
+                self?.navigation.goToLaunchDetail(of: launch)
+            }).disposed(by: disposeBag)
+    }
+    
+    //MARK: - Selectors
+    
+    @objc private func orderButtonTapped() {
+       showOrderSelectionActionSheet()
+    }
+    
+    //MARK: - Helpers
+    
+    private func showOrderSelectionActionSheet() {
+        let actionSheet = UIAlertController(
+            title: NSLocalizedString(Strings.RocketLaunches.Sorting.title, comment: "Rocket launches sort order selection action sheet title"),
+            message: nil,
+            preferredStyle: UIAlertController.Style.actionSheet
+        )
+        
+        actionSheet.addAction(UIAlertAction(
+            title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateAsc, comment: "Rocket launches date asceding sort order"),
+            style: UIAlertAction.Style.default,
+            handler: { (action) -> Void in
+                self.viewModel.order(by: .dateAsc)
+            }
+        ))
+        
+        actionSheet.addAction(UIAlertAction(
+            title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateDesc, comment: "Rocket launches date descending sort order"),
+            style: UIAlertAction.Style.default,
+            handler: { (action) -> Void in
+                self.viewModel.order(by: .dateDesc)
+            }
+        ))
+        
+        actionSheet.addAction(UIAlertAction(
+            title: NSLocalizedString(Strings.cancel, comment: "Hide the action sheet"),
+            style: UIAlertAction.Style.cancel,
+            handler: { (action) -> Void in
+            }
+        ))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
