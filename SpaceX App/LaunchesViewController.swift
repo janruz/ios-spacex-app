@@ -23,6 +23,7 @@ class LaunchesViewController: UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.dataSource = self
+        tableView.delegate = self
         
         return tableView
     }()
@@ -31,7 +32,7 @@ class LaunchesViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = "Rocket launches"
-        layout()
+        configureUI()
         
         Task {
             let result = await RocketLaunchesRepository.shared.getLaunches()
@@ -45,7 +46,7 @@ class LaunchesViewController: UIViewController {
         }
     }
     
-    private func layout() {
+    private func configureUI() {
         view.addSubview(tableView)
         tableView.constrain(
             top: view.topAnchor,
@@ -62,10 +63,19 @@ extension LaunchesViewController: UITableViewDataSource {
         return rocketLaunches.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! RocketLaunchCell
         cell.rocketLaunch = rocketLaunches[indexPath.row]
         return cell
+    }
+}
+
+extension LaunchesViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(
+            LaunchDetailViewController(for: rocketLaunches[indexPath.row]),
+            animated: true
+        )
     }
 }

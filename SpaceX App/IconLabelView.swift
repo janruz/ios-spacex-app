@@ -22,6 +22,18 @@ class IconLabelView: UIView {
         return label
     }()
     
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        
+        return stackView
+    }()
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: stackView.frame.width, height: stackView.frame.height)
+    }
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -37,10 +49,7 @@ class IconLabelView: UIView {
     //MARK: - Layout
     
     private func configureUI() {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.distribution = .fillProportionally
+        imageView.constrain(widthConstant: 20, heightConstant: 20)
         
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(label)
@@ -57,5 +66,6 @@ class IconLabelView: UIView {
         
         label.text = text
         label.textColor = tintColor
+        invalidateIntrinsicContentSize()
     }
 }
