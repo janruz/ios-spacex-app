@@ -88,38 +88,40 @@ class RocketLaunchCell: UITableViewCell {
     //MARK: - Layout
     
     private func configureUI() {
-        addSubview(upcomingIconLabel)
+        accessoryType = .disclosureIndicator
+        
+        contentView.addSubview(upcomingIconLabel)
         upcomingIconLabel.constrain(
-            top: topAnchor,
-            leading: leadingAnchor,
+            top: contentView.topAnchor,
+            leading: contentView.leadingAnchor,
             constantTop: 12,
             constantLeading: 12
         )
         
-        addSubview(successIconLabel)
+        contentView.addSubview(successIconLabel)
         successIconLabel.constrain(
-            top: topAnchor,
+            top: contentView.topAnchor,
             leading: upcomingIconLabel.trailingAnchor,
             constantTop: 12,
             constantLeading: 24
         )
         
-        addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         nameLabel.constrain(
             top: upcomingIconLabel.bottomAnchor,
-            leading: leadingAnchor,
-            trailing: trailingAnchor,
+            leading: contentView.leadingAnchor,
+            trailing: contentView.trailingAnchor,
             constantTop: 16,
             constantLeading: 12,
             constantTrailing: -12
         )
         
-        addSubview(detailLabel)
+        contentView.addSubview(detailLabel)
         detailLabel.constrain(
             top: nameLabel.bottomAnchor,
-            leading: leadingAnchor,
-            bottom: bottomAnchor,
-            trailing: trailingAnchor,
+            leading: contentView.leadingAnchor,
+            bottom: contentView.bottomAnchor,
+            trailing: contentView.trailingAnchor,
             constantTop: 12,
             constantLeading: 12,
             constantBottom: -12,
