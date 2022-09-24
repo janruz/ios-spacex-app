@@ -46,7 +46,7 @@ class LaunchesListViewModel {
     private func publishRocketLaunches() {
         let filtered = allRocketLaunches
             .filter {
-                searchQuery.isEmpty ? true : $0.name.contains(searchQuery)
+                searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
             }
             .sorted {
                 switch self.sortOrder {
