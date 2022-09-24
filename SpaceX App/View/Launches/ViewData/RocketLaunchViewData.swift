@@ -23,6 +23,18 @@ struct RocketLaunchViewData {
     let successLabelText: String
     let successColor: UIColor
     
+    let rocketName: String
+    
+    let rocketStatusIconName: String
+    let rocketStatusLabelText: String
+    let rocketStatusColor: UIColor
+    
+    let launchpadName: String
+    
+    let launchpadStatusIconName: String
+    let launchpadStatusLabelText: String
+    let launchpadStatusColor: UIColor
+    
     //MARK: - Lifecycle
     
     init(from rocketLaunch: RocketLaunch) {
@@ -57,5 +69,17 @@ struct RocketLaunchViewData {
             successLabelText = NSLocalizedString(Strings.RocketLaunches.statusUnknown, comment: "Label for rocket launch with unknown status (success/failure)")
             successColor = .systemYellow
         }
+        
+        rocketName = rocketLaunch.rocket.name
+        
+        rocketStatusIconName = rocketLaunch.rocket.active ? "checkmark.seal.fill" : "clear.fill"
+        rocketStatusLabelText = rocketLaunch.rocket.active ? "Active" : "Inactive"
+        rocketStatusColor = rocketLaunch.rocket.active ? UIColor.systemMint : UIColor.systemRed
+        
+        launchpadName = rocketLaunch.launchpad.name
+        
+        launchpadStatusIconName = "checkmark.seal.fill"
+        launchpadStatusLabelText = rocketLaunch.launchpad.status.rawValue.capitalized
+        launchpadStatusColor = .systemTeal
     }
 }

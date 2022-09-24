@@ -15,7 +15,7 @@ class LaunchDetailViewController: UIViewController {
     
     private let detailLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         
         return label
@@ -24,6 +24,40 @@ class LaunchDetailViewController: UIViewController {
     private let upcomingIconLabel = IconLabelView()
     
     private let successIconLabel = IconLabelView()
+    
+    private let rocketInfoHeadline: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.text = "Rocket"
+        
+        return label
+    }()
+    
+    private let rocketNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        
+        return label
+    }()
+    
+    private let rocketStatusIconLabel = IconLabelView()
+    
+    private let launchpadInfoHeadline: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.text = "Launchpad"
+        
+        return label
+    }()
+    
+    private let launchpadNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        
+        return label
+    }()
+    
+    private let launchpadStatusIconLabel = IconLabelView()
     
     //MARK: - Lifecycle
     
@@ -56,6 +90,22 @@ class LaunchDetailViewController: UIViewController {
             text: viewData.successLabelText,
             tintColor: viewData.successColor
         )
+        
+        rocketNameLabel.text = viewData.rocketName
+        
+        rocketStatusIconLabel.setUp(
+            systemImageName: viewData.rocketStatusIconName,
+            text: viewData.rocketStatusLabelText,
+            tintColor: viewData.rocketStatusColor
+        )
+        
+        launchpadNameLabel.text = viewData.launchpadName
+        
+        launchpadStatusIconLabel.setUp(
+            systemImageName: viewData.launchpadStatusIconName,
+            text: viewData.launchpadStatusLabelText,
+            tintColor: viewData.launchpadStatusColor
+        )
     }
     
     //MARK: - Layout
@@ -66,7 +116,6 @@ class LaunchDetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 16
-        stackView.distribution = .fillProportionally
         stackView.alignment = .leading
         
         stackView.addArrangedSubview(detailLabel)
@@ -74,12 +123,37 @@ class LaunchDetailViewController: UIViewController {
         let iconLabelsStack = UIStackView()
         iconLabelsStack.axis = .horizontal
         iconLabelsStack.spacing = 16
-        iconLabelsStack.distribution = .fillProportionally
         
         iconLabelsStack.addArrangedSubview(upcomingIconLabel)
         iconLabelsStack.addArrangedSubview(successIconLabel)
         
         stackView.addArrangedSubview(iconLabelsStack)
+        
+        let otherInfoStack = UIStackView()
+        otherInfoStack.axis = .horizontal
+        otherInfoStack.distribution = .fillEqually
+        otherInfoStack.alignment = .top
+        
+        let rocketInfoStack = UIStackView()
+        rocketInfoStack.axis = .vertical
+        rocketInfoStack.spacing = 8
+        
+        rocketInfoStack.addArrangedSubview(rocketInfoHeadline)
+        rocketInfoStack.addArrangedSubview(rocketNameLabel)
+        rocketInfoStack.addArrangedSubview(rocketStatusIconLabel)
+        
+        let launchpadInfoStack = UIStackView()
+        launchpadInfoStack.axis = .vertical
+        launchpadInfoStack.spacing = 8
+        
+        launchpadInfoStack.addArrangedSubview(launchpadInfoHeadline)
+        launchpadInfoStack.addArrangedSubview(launchpadNameLabel)
+        launchpadInfoStack.addArrangedSubview(launchpadStatusIconLabel)
+        
+        otherInfoStack.addArrangedSubview(rocketInfoStack)
+        otherInfoStack.addArrangedSubview(launchpadInfoStack)
+        
+        stackView.addArrangedSubview(otherInfoStack)
         
         let scrollView = UIScrollView()
         
