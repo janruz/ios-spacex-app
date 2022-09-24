@@ -167,11 +167,11 @@ class LaunchDetailViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 1),
-            scrollView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: scrollView.trailingAnchor, multiplier: 1),
-            view.bottomAnchor.constraint(equalToSystemSpacingBelow: scrollView.bottomAnchor, multiplier: 1)
-        ])
+        scrollView.constrain(
+            top: view.topAnchor,
+            leading: view.readableContentGuide.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.readableContentGuide.trailingAnchor
+        )
     }
 }
