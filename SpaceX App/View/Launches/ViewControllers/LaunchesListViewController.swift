@@ -85,6 +85,13 @@ class LaunchesListViewController: UIViewController {
             (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
         }.disposed(by: disposeBag)
         
+        viewModel.sortOrder
+            .map { order in
+                return "Ordered by \(order.title)"
+            }
+            .bind(to: navigationItem.rightBarButtonItem!.rx.title)
+            .disposed(by: disposeBag)
+        
         tableView.rx.modelSelected(RocketLaunch.self)
             .subscribe(onNext: { [weak self] launch in
                 self?.navigation.goToLaunchDetail(of: launch)

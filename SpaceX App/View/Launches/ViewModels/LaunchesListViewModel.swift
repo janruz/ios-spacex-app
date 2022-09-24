@@ -17,7 +17,26 @@ class LaunchesListViewModel {
     
     private var searchQuery = ""
     
-    private var sortOrder = RocketLaunchSortOrder.dateDesc
+    let sortOrder = BehaviorRelay<RocketLaunchSortOrder>(value: RocketLaunchSortOrder.dateDesc)
+    
+    private let defaults = UserDefaults.standard
+    
+    private static let sortOrderKey = "launchesSortOrder"
+    
+    private let disposeBag = DisposeBag()
+    
+    init() {
+        if let savedSortOrder = RocketLaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
+            sortOrder.accept(savedSortOrder)
+        }
+        
+        sortOrder
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] order in
+                self.defaults.set(order.rawValue, forKey: LaunchesListViewModel.sortOrderKey)
+            })
+            .disposed(by: disposeBag)
+    }
     
     func fetchPastLaunches() {
         Task {
@@ -39,7 +58,7 @@ class LaunchesListViewModel {
     }
     
     func order(by newSortOrder: RocketLaunchSortOrder) {
-        sortOrder = newSortOrder
+        sortOrder.accept(newSortOrder)
         publishRocketLaunches()
     }
     
@@ -49,7 +68,7 @@ class LaunchesListViewModel {
                 searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
             }
             .sorted {
-                switch self.sortOrder {
+                switch self.sortOrder.value {
                 case .dateDesc:
                     return $0.date > $1.date
                 case .dateAsc:
@@ -61,7 +80,14 @@ class LaunchesListViewModel {
     }
 }
 
-enum RocketLaunchSortOrder {
-    case dateAsc
+enum RocketLaunchSortOrder: Int {
     case dateDesc
+    case dateAsc
+    
+    var title: String {
+        switch self {
+        case .dateAsc: return "date asc"
+        case .dateDesc: return "date desc"
+        }
+    }
 }
