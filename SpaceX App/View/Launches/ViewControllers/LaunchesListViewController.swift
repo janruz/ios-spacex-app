@@ -79,7 +79,7 @@ class LaunchesListViewController: UIViewController {
     }
     
     private func configureViewModel() {
-        viewModel.fetchLaunches()
+        viewModel.fetchPastLaunches()
         
         viewModel.rocketLaunches.bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, launch, cell in
             (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)

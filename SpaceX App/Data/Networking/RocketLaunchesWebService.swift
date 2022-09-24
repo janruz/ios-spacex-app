@@ -14,10 +14,11 @@ struct RocketLaunchesWebService {
     
     private init() {}
     
-    func getLaunches() async -> Result<[RocketLaunchFromApi], Error> {
-        let parameters = [
-            "options": FetchLaunchesOptions(populate: ["rocket", "launchpad"])
-        ]
+    func getPastLaunches() async -> Result<[RocketLaunchFromApi], Error> {
+        let parameters = GetLaunchesParameters(
+            query: GetLaunchesParameters.Query(upcoming: false),
+            options: GetLaunchesParameters.Options(populate: ["rocket", "launchpad"], pagination: false)
+        )
         let response = await AF.request("https://api.spacexdata.com/v5/launches/query", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).serializingDecodable(FetchLaunchesResponse.self).response
         
         if let error = response.error {
@@ -35,7 +36,19 @@ struct RocketLaunchesWebService {
         let docs: [RocketLaunchFromApi]
     }
     
-    private struct FetchLaunchesOptions: Encodable {
-        let populate: [String]
+    struct GetLaunchesParameters: Encodable {
+        let query: Query
+        let options: Options
+        
+        struct Query: Encodable {
+            let upcoming: Bool
+        }
+        
+        struct Options: Encodable {
+            let populate: [String]
+            let pagination: Bool
+        }
     }
+    
+    
 }

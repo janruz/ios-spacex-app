@@ -19,9 +19,9 @@ class LaunchesListViewModel {
     
     private var sortOrder = RocketLaunchSortOrder.dateDesc
     
-    func fetchLaunches() {
+    func fetchPastLaunches() {
         Task {
-            let result = await RocketLaunchesRepository.shared.getLaunches()
+            let result = await RocketLaunchesRepository.shared.getPastLaunches()
             
             switch result {
             case .success(let launches):
