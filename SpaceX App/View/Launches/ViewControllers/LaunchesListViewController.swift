@@ -49,7 +49,7 @@ class LaunchesListViewController: UIViewController {
         layout()
         bindData()
         
-        viewModel.fetchPastLaunches()
+        viewModel.fetchLaunches()
     }
 }
 
@@ -59,11 +59,6 @@ extension LaunchesListViewController {
     
     private func bindData() {
         viewModel.launches
-            .do(onNext: { _ in
-                DispatchQueue.main.async {
-                    self.tableView.refreshControl?.endRefreshing()
-                }
-            })
             .bind(to: tableView.rx.items(cellIdentifier: LaunchCell.reuseID)) { _, launch, cell in
                 (cell as! LaunchCell).configure(with: LaunchViewData(from: launch))
             }
@@ -78,6 +73,10 @@ extension LaunchesListViewController {
         
         viewModel.isLoading
             .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        viewModel.isRefreshing
+            .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         viewModel.isError
@@ -112,7 +111,7 @@ extension LaunchesListViewController {
     }
     
     @objc private func refreshContent() {
-        viewModel.fetchPastLaunches()
+        viewModel.refreshLaunches()
     }
     
     private func presentSelectOrderActionSheet() {

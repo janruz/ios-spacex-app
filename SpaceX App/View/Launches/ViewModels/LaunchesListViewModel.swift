@@ -21,6 +21,11 @@ class LaunchesListViewModel {
         _isLoading.asObservable()
     }
     
+    private let _isRefreshing = BehaviorRelay<Bool>(value: false)
+    var isRefreshing: Observable<Bool> {
+        _isRefreshing.asObservable()
+    }
+    
     private let _isError = BehaviorRelay<Bool>(value: false)
     var isError: Observable<Bool> {
         _isError.asObservable()
@@ -58,7 +63,7 @@ class LaunchesListViewModel {
             .disposed(by: disposeBag)
     }
     
-    func fetchPastLaunches() {
+    func fetchLaunches() {
         Task {
             _isError.accept(false)
             _isLoading.accept(true)
@@ -67,15 +72,20 @@ class LaunchesListViewModel {
             
             _isLoading.accept(false)
             
-            switch result {
-            case .success(let launches):
-                self._isError.accept(false)
-                self.allLaunches = launches
-                self.publishLaunches()
-            case .failure(_):
-                self._isError.accept(true)
-                break
-            }
+            handleLaunchesResult(result)
+        }
+    }
+    
+    func refreshLaunches() {
+        Task {
+            _isError.accept(false)
+            _isRefreshing.accept(true)
+            
+            let result = await repository.getPastLaunches()
+            
+            _isRefreshing.accept(false)
+            
+            handleLaunchesResult(result)
         }
     }
     
@@ -87,6 +97,18 @@ class LaunchesListViewModel {
     func order(by newSortOrder: LaunchSortOrder) {
         _sortOrder.accept(newSortOrder)
         publishLaunches()
+    }
+    
+    private func handleLaunchesResult(_ result: Result<[Launch], Error>) {
+        switch result {
+        case .success(let launches):
+            self._isError.accept(false)
+            self.allLaunches = launches
+            self.publishLaunches()
+        case .failure(_):
+            self._isError.accept(true)
+            break
+        }
     }
     
     private func publishLaunches() {
