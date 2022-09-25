@@ -13,49 +13,21 @@ class LaunchDetailViewController: UIViewController {
     
     private let viewData: RocketLaunchViewData
     
-    private let detailLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.numberOfLines = 0
-        
-        return label
-    }()
+    private let detailLabel = UILabel()
     
     private let upcomingIconLabel = IconLabelView()
     
     private let successIconLabel = IconLabelView()
     
-    private let rocketInfoHeadline: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .headline)
-        label.text = "Rocket"
-        
-        return label
-    }()
+    private let rocketInfoHeadline = UILabel()
     
-    private let rocketNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private let rocketNameLabel = UILabel()
     
     private let rocketStatusIconLabel = IconLabelView()
     
-    private let launchpadInfoHeadline: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .headline)
-        label.text = "Launchpad"
-        
-        return label
-    }()
+    private let launchpadInfoHeadline = UILabel()
     
-    private let launchpadNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private let launchpadNameLabel = UILabel()
     
     private let launchpadStatusIconLabel = IconLabelView()
     
@@ -76,16 +48,23 @@ class LaunchDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        setup()
+        layout()
+        bindData()
+    }
+}
+
+extension LaunchDetailViewController {
     
+    private func bindData() {
         detailLabel.text = viewData.details
         
-        upcomingIconLabel.setUp(
+        upcomingIconLabel.setup(
             systemImageName: viewData.upcomingIconName,
             text: viewData.upcomingLabelText,
             tintColor: viewData.upcomingColor
         )
-        successIconLabel.setUp(
+        successIconLabel.setup(
             systemImageName: viewData.successIconName,
             text: viewData.successLabelText,
             tintColor: viewData.successColor
@@ -93,7 +72,7 @@ class LaunchDetailViewController: UIViewController {
         
         rocketNameLabel.text = viewData.rocketName
         
-        rocketStatusIconLabel.setUp(
+        rocketStatusIconLabel.setup(
             systemImageName: viewData.rocketStatusIconName,
             text: viewData.rocketStatusLabelText,
             tintColor: viewData.rocketStatusColor
@@ -101,59 +80,53 @@ class LaunchDetailViewController: UIViewController {
         
         launchpadNameLabel.text = viewData.launchpadName
         
-        launchpadStatusIconLabel.setUp(
+        launchpadStatusIconLabel.setup(
             systemImageName: viewData.launchpadStatusIconName,
             text: viewData.launchpadStatusLabelText,
             tintColor: viewData.launchpadStatusColor
         )
     }
+}
+
+extension LaunchDetailViewController {
     
-    //MARK: - Layout
+    private func setup() {
+        detailLabel.font = .preferredFont(forTextStyle: .body)
+        detailLabel.numberOfLines = 0
+        
+        rocketInfoHeadline.font = .preferredFont(forTextStyle: .headline)
+        rocketInfoHeadline.text = "Rocket"
+        
+        rocketNameLabel.font = .preferredFont(forTextStyle: .body)
+        
+        launchpadInfoHeadline.font = .preferredFont(forTextStyle: .headline)
+        launchpadInfoHeadline.text = "Launchpad"
+        
+        launchpadNameLabel.font = .preferredFont(forTextStyle: .body)
+    }
     
-    private func configureUI() {
+    private func layout() {
         view.backgroundColor = .systemBackground
+                
+        let iconLabelsStack = makeStack(.horizontal, 16, .fill, [
+            upcomingIconLabel, successIconLabel
+        ])
         
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.alignment = .leading
+        let rocketInfoStack = makeStack(.vertical, 8, .fill, [
+            rocketInfoHeadline, rocketNameLabel, rocketStatusIconLabel
+        ])
         
-        stackView.addArrangedSubview(detailLabel)
+        let launchpadInfoStack = makeStack(.vertical, 8, .fill, [
+            launchpadInfoHeadline, launchpadNameLabel, launchpadStatusIconLabel
+        ])
         
-        let iconLabelsStack = UIStackView()
-        iconLabelsStack.axis = .horizontal
-        iconLabelsStack.spacing = 16
-        
-        iconLabelsStack.addArrangedSubview(upcomingIconLabel)
-        iconLabelsStack.addArrangedSubview(successIconLabel)
-        
-        stackView.addArrangedSubview(iconLabelsStack)
-        
-        let otherInfoStack = UIStackView()
-        otherInfoStack.axis = .horizontal
-        otherInfoStack.distribution = .fillEqually
-        otherInfoStack.alignment = .top
-        
-        let rocketInfoStack = UIStackView()
-        rocketInfoStack.axis = .vertical
-        rocketInfoStack.spacing = 8
-        
-        rocketInfoStack.addArrangedSubview(rocketInfoHeadline)
-        rocketInfoStack.addArrangedSubview(rocketNameLabel)
-        rocketInfoStack.addArrangedSubview(rocketStatusIconLabel)
-        
-        let launchpadInfoStack = UIStackView()
-        launchpadInfoStack.axis = .vertical
-        launchpadInfoStack.spacing = 8
-        
-        launchpadInfoStack.addArrangedSubview(launchpadInfoHeadline)
-        launchpadInfoStack.addArrangedSubview(launchpadNameLabel)
-        launchpadInfoStack.addArrangedSubview(launchpadStatusIconLabel)
-        
-        otherInfoStack.addArrangedSubview(rocketInfoStack)
-        otherInfoStack.addArrangedSubview(launchpadInfoStack)
-        
-        stackView.addArrangedSubview(otherInfoStack)
+        let otherInfoStack = makeStack(.horizontal, 0, .fillEqually, .top, [
+            rocketInfoStack, launchpadInfoStack
+        ])
+                
+        let stackView = makeStack(.vertical, 16, .fill, .leading, [
+            detailLabel, iconLabelsStack, otherInfoStack
+        ])
         
         let scrollView = UIScrollView()
         

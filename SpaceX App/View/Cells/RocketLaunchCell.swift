@@ -18,13 +18,13 @@ class RocketLaunchCell: UITableViewCell {
             nameLabel.text = safeViewData.name
             detailLabel.text = safeViewData.details
             
-            upcomingIconLabel.setUp(
+            upcomingIconLabel.setup(
                 systemImageName: safeViewData.upcomingIconName,
                 text: safeViewData.upcomingLabelText,
                 tintColor: safeViewData.upcomingColor
             )
             
-            successIconLabel.setUp(
+            successIconLabel.setup(
                 systemImageName: safeViewData.successIconName,
                 text: safeViewData.successLabelText,
                 tintColor: safeViewData.successColor

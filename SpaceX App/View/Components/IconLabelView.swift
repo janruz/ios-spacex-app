@@ -61,7 +61,7 @@ class IconLabelView: UIView {
     
     //MARK: - Functionality
     
-    func setUp(systemImageName: String, text: String, tintColor: UIColor) {
+    func setup(systemImageName: String, text: String, tintColor: UIColor) {
         imageView.image = UIImage(systemName: systemImageName)
         imageView.tintColor = tintColor
         

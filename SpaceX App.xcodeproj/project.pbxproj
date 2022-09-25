@@ -10,6 +10,7 @@
 		DE09EBDF28DFB95B00F672CA /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09EBDE28DFB95B00F672CA /* Rocket.swift */; };
 		DE09EBE128DFB9C800F672CA /* Launchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09EBE028DFB9C800F672CA /* Launchpad.swift */; };
 		DE40779228CF376C00EDB68D /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE40779128CF376C00EDB68D /* IconLabelView.swift */; };
+		DE83A08A28E107AF005650CE /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83A08928E107AF005650CE /* ViewFactory.swift */; };
 		DEA0E7FD28D0D00F0095C8FD /* LaunchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */; };
 		DEA0E7FF28D0F2EB0095C8FD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E7FE28D0F2EB0095C8FD /* Coordinator.swift */; };
 		DEA0E80128D0F31D0095C8FD /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0E80028D0F31D0095C8FD /* AppCoordinator.swift */; };
@@ -38,6 +39,7 @@
 		DE09EBDE28DFB95B00F672CA /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
 		DE09EBE028DFB9C800F672CA /* Launchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launchpad.swift; sourceTree = "<group>"; };
 		DE40779128CF376C00EDB68D /* IconLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
+		DE83A08928E107AF005650CE /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		DEA0E7FC28D0D00F0095C8FD /* LaunchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchDetailViewController.swift; sourceTree = "<group>"; };
 		DEA0E7FE28D0F2EB0095C8FD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		DEA0E80028D0F31D0095C8FD /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				DEB0DC1728CE763E00F77F0F /* Extensions.swift */,
 				DEA0E82F28D11A200095C8FD /* Strings.swift */,
+				DE83A08928E107AF005650CE /* ViewFactory.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				DEB0DC1828CE763E00F77F0F /* Extensions.swift in Sources */,
 				DEB0DC1A28CE771F00F77F0F /* RocketLaunch.swift in Sources */,
 				DEA0E81328D0FA110095C8FD /* LaunchesNavigation.swift in Sources */,
+				DE83A08A28E107AF005650CE /* ViewFactory.swift in Sources */,
 				DEA0E83528D121DF0095C8FD /* RocketLaunchViewData.swift in Sources */,
 				DEB0DC0428CE053C00F77F0F /* AppDelegate.swift in Sources */,
 				DEB0DC2328CE95FA00F77F0F /* RocketLaunchesWebService.swift in Sources */,
