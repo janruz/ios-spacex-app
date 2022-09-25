@@ -11,17 +11,29 @@ import RxRelay
 
 class LaunchesListViewModel {
     
-    let launches = BehaviorRelay<[Launch]>(value: [])
+    private let _launches = BehaviorRelay<[Launch]>(value: [])
+    var launches: Observable<[Launch]> {
+        _launches.asObservable()
+    }
     
-    let isLoading = BehaviorRelay<Bool>(value: true)
+    private let _isLoading = BehaviorRelay<Bool>(value: true)
+    var isLoading: Observable<Bool> {
+        _isLoading.asObservable()
+    }
     
-    let isError = BehaviorRelay<Bool>(value: false)
+    private let _isError = BehaviorRelay<Bool>(value: false)
+    var isError: Observable<Bool> {
+        _isError.asObservable()
+    }
+    
+    private let _sortOrder = BehaviorRelay<LaunchSortOrder>(value: LaunchSortOrder.dateDesc)
+    var sortOrder: Observable<LaunchSortOrder> {
+        _sortOrder.asObservable()
+    }
     
     private var allLaunches = [Launch]()
     
     private var searchQuery = ""
-    
-    let sortOrder = BehaviorRelay<LaunchSortOrder>(value: LaunchSortOrder.dateDesc)
     
     private let defaults = UserDefaults.standard
     
@@ -35,7 +47,7 @@ class LaunchesListViewModel {
         self.repository = repository
         
         if let savedSortOrder = LaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
-            sortOrder.accept(savedSortOrder)
+            _sortOrder.accept(savedSortOrder)
         }
         
         sortOrder
@@ -48,19 +60,20 @@ class LaunchesListViewModel {
     
     func fetchPastLaunches() {
         Task {
-            isLoading.accept(true)
+            _isError.accept(false)
+            _isLoading.accept(true)
             
             let result = await repository.getPastLaunches()
             
-            isLoading.accept(false)
+            _isLoading.accept(false)
             
             switch result {
             case .success(let launches):
-                self.isError.accept(false)
+                self._isError.accept(false)
                 self.allLaunches = launches
                 self.publishLaunches()
             case .failure(_):
-                self.isError.accept(true)
+                self._isError.accept(true)
                 break
             }
         }
@@ -72,7 +85,7 @@ class LaunchesListViewModel {
     }
     
     func order(by newSortOrder: LaunchSortOrder) {
-        sortOrder.accept(newSortOrder)
+        _sortOrder.accept(newSortOrder)
         publishLaunches()
     }
     
@@ -82,7 +95,7 @@ class LaunchesListViewModel {
                 searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
             }
             .sorted {
-                switch self.sortOrder.value {
+                switch self._sortOrder.value {
                 case .dateDesc:
                     return $0.date > $1.date
                 case .dateAsc:
@@ -90,7 +103,7 @@ class LaunchesListViewModel {
                 }
             }
         
-        launches.accept(filtered)
+        _launches.accept(filtered)
     }
 }
 
