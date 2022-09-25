@@ -1,5 +1,5 @@
 //
-//  RocketLaunchesWebService.swift
+//  LaunchesWebService.swift
 //  SpaceX App
 //
 //  Created by Jan Růžička on 12.09.2022.
@@ -8,13 +8,13 @@
 import Foundation
 import Alamofire
 
-struct RocketLaunchesWebService {
+struct LaunchesWebService {
     
-    static let shared = RocketLaunchesWebService()
+    static let shared = LaunchesWebService()
     
     private init() {}
     
-    func getPastLaunches() async -> Result<[RocketLaunchFromApi], Error> {
+    func getPastLaunches() async -> Result<[LaunchFromApi], Error> {
         let parameters = GetLaunchesParameters(
             query: GetLaunchesParameters.Query(upcoming: false),
             options: GetLaunchesParameters.Options(populate: ["rocket", "launchpad"], pagination: false)
@@ -33,7 +33,7 @@ struct RocketLaunchesWebService {
     }
     
     private struct FetchLaunchesResponse: Decodable {
-        let docs: [RocketLaunchFromApi]
+        let docs: [LaunchFromApi]
     }
     
     struct GetLaunchesParameters: Encodable {

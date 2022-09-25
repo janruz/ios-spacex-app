@@ -1,5 +1,5 @@
 //
-//  RocketLaunchCell.swift
+//  LaunchCell.swift
 //  SpaceX App
 //
 //  Created by Jan Růžička on 11.09.2022.
@@ -7,70 +7,72 @@
 
 import UIKit
 
-class RocketLaunchCell: UITableViewCell {
+class LaunchCell: UITableViewCell {
     
     //MARK: - Properties
-    
-    var viewData: RocketLaunchViewData? {
-        didSet {
-            guard let safeViewData = viewData else { return }
-            
-            nameLabel.text = safeViewData.name
-            detailLabel.text = safeViewData.details
-            
-            upcomingIconLabel.setup(
-                systemImageName: safeViewData.upcomingIconName,
-                text: safeViewData.upcomingLabelText,
-                tintColor: safeViewData.upcomingColor
-            )
-            
-            successIconLabel.setup(
-                systemImageName: safeViewData.successIconName,
-                text: safeViewData.successLabelText,
-                tintColor: safeViewData.successColor
-            )
-        }
-    }
     
     private let upcomingIconLabel = IconLabelView()
     
     private let successIconLabel = IconLabelView()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
-        label.numberOfLines = 1
-        
-        return label
-    }()
+    private let nameLabel = UILabel()
     
-    private let detailLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 3
-        
-        return label
-    }()
+    private let detailLabel = UILabel()
     
-    static let reuseID = "RocketLaunchCell"
+    static let reuseID = "LaunchCell"
     
     //MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        setup()
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+//MARK: Data
+
+extension LaunchCell {
     
-    //MARK: - Layout
+    func configure(with launchData: LaunchViewData) {
+        
+        nameLabel.text = launchData.name
+        detailLabel.text = launchData.details
+        
+        upcomingIconLabel.configure(
+            systemImageName: launchData.upcomingIconName,
+            text: launchData.upcomingLabelText,
+            tintColor: launchData.upcomingColor
+        )
+        
+        successIconLabel.configure(
+            systemImageName: launchData.successIconName,
+            text: launchData.successLabelText,
+            tintColor: launchData.successColor
+        )
+    }
+}
+
+//MARK: - Layout
+
+extension LaunchCell {
     
-    private func configureUI() {
+    private func setup() {
         accessoryType = .disclosureIndicator
         
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        nameLabel.numberOfLines = 1
+        
+        detailLabel.font = UIFont.systemFont(ofSize: 16)
+        detailLabel.numberOfLines = 3
+    }
+    
+    private func layout() {
         contentView.addSubview(upcomingIconLabel)
         upcomingIconLabel.constrain(
             top: contentView.topAnchor,

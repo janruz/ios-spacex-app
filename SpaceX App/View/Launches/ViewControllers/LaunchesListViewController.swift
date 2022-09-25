@@ -1,5 +1,5 @@
 //
-//  LaunchesViewController.swift
+//  LaunchesListViewController.swift
 //  SpaceX App
 //
 //  Created by Jan Růžička on 11.09.2022.
@@ -58,14 +58,14 @@ class LaunchesListViewController: UIViewController {
 extension LaunchesListViewController {
     
     private func bindData() {
-        viewModel.rocketLaunches
+        viewModel.launches
             .do(onNext: { _ in
                 DispatchQueue.main.async {
                     self.tableView.refreshControl?.endRefreshing()
                 }
             })
-            .bind(to: tableView.rx.items(cellIdentifier: RocketLaunchCell.reuseID)) { _, launch, cell in
-                (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
+            .bind(to: tableView.rx.items(cellIdentifier: LaunchCell.reuseID)) { _, launch, cell in
+                (cell as! LaunchCell).configure(with: LaunchViewData(from: launch))
             }
             .disposed(by: disposeBag)
         
@@ -87,7 +87,7 @@ extension LaunchesListViewController {
             .bind(to: errorMessageLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(RocketLaunch.self)
+        tableView.rx.modelSelected(Launch.self)
             .subscribe(onNext: { [weak self] launch in
                 self?.navigation.goToLaunchDetail(of: launch)
             }).disposed(by: disposeBag)
@@ -135,7 +135,7 @@ extension LaunchesListViewController {
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
-        tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: RocketLaunchCell.reuseID)
+        tableView.register(LaunchCell.self, forCellReuseIdentifier: LaunchCell.reuseID)
         tableView.refreshControl = refreshControl
         
         errorMessageLabel.text = "Oops, something went wrong.\nWe could not fetch the launches."

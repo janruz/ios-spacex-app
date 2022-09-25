@@ -9,5 +9,5 @@ import Foundation
 
 protocol LaunchesNavigation {
     func goToLaunchesList()
-    func goToLaunchDetail(of rocketLaunch: RocketLaunch)
+    func goToLaunchDetail(of launch: Launch)
 }

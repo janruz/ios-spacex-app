@@ -1,5 +1,5 @@
 //
-//  RocketLaunchViewData.swift
+//  LaunchViewData.swift
 //  SpaceX App
 //
 //  Created by Jan Růžička on 13.09.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct RocketLaunchViewData {
+struct LaunchViewData {
     
     //MARK: - Properties
     
@@ -37,11 +37,11 @@ struct RocketLaunchViewData {
     
     //MARK: - Lifecycle
     
-    init(from rocketLaunch: RocketLaunch) {
-        name = rocketLaunch.name
-        details = rocketLaunch.details ?? ""
+    init(from launch: Launch) {
+        name = launch.name
+        details = launch.details ?? ""
         
-        if rocketLaunch.upcoming {
+        if launch.upcoming {
             upcomingIconName = "clock.fill"
             upcomingLabelText = NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label")
             upcomingColor = .systemOrange
@@ -51,7 +51,7 @@ struct RocketLaunchViewData {
             upcomingColor = .systemBlue
         }
         
-        if let successful = rocketLaunch.successful {
+        if let successful = launch.successful {
             
             if successful {
                 successIconName = "checkmark.seal.fill"
@@ -70,16 +70,16 @@ struct RocketLaunchViewData {
             successColor = .systemYellow
         }
         
-        rocketName = rocketLaunch.rocket.name
+        rocketName = launch.rocket.name
         
-        rocketStatusIconName = rocketLaunch.rocket.active ? "checkmark.seal.fill" : "clear.fill"
-        rocketStatusLabelText = rocketLaunch.rocket.active ? "Active" : "Inactive"
-        rocketStatusColor = rocketLaunch.rocket.active ? UIColor.systemMint : UIColor.systemRed
+        rocketStatusIconName = launch.rocket.active ? "checkmark.seal.fill" : "clear.fill"
+        rocketStatusLabelText = launch.rocket.active ? "Active" : "Inactive"
+        rocketStatusColor = launch.rocket.active ? UIColor.systemMint : UIColor.systemRed
         
-        launchpadName = rocketLaunch.launchpad.name
+        launchpadName = launch.launchpad.name
         
         launchpadStatusIconName = "checkmark.seal.fill"
-        launchpadStatusLabelText = rocketLaunch.launchpad.status.rawValue.capitalized
+        launchpadStatusLabelText = launch.launchpad.status.rawValue.capitalized
         launchpadStatusColor = .systemTeal
     }
 }

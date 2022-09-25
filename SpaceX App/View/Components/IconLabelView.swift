@@ -5,7 +5,6 @@
 //  Created by Jan Růžička on 12.09.2022.
 //
 
-import Foundation
 import UIKit
 
 class IconLabelView: UIView {
@@ -14,13 +13,7 @@ class IconLabelView: UIView {
     
     private let imageView = UIImageView()
     
-    private let label: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private let label = UILabel()
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 20 + 8 + label.frame.width, height: 20)
@@ -31,16 +24,37 @@ class IconLabelView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        setup()
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Layout
+    //MARK: - Functionality
     
-    private func configureUI() {
+    func configure(systemImageName: String, text: String, tintColor: UIColor) {
+        imageView.image = UIImage(systemName: systemImageName)
+        imageView.tintColor = tintColor
+        
+        label.text = text
+        label.textColor = tintColor
+        
+        invalidateIntrinsicContentSize()
+    }
+}
+
+//MARK: - Layout
+
+extension IconLabelView {
+    
+    private func setup() {
+        label.numberOfLines = 1
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+    }
+    
+    private func layout() {
         addSubview(imageView)
         imageView.constrain(
             top: topAnchor,
@@ -58,17 +72,4 @@ class IconLabelView: UIView {
             constantLeading: 8
         )
     }
-    
-    //MARK: - Functionality
-    
-    func setup(systemImageName: String, text: String, tintColor: UIColor) {
-        imageView.image = UIImage(systemName: systemImageName)
-        imageView.tintColor = tintColor
-        
-        label.text = text
-        label.textColor = tintColor
-        
-        invalidateIntrinsicContentSize()
-    }
 }
-

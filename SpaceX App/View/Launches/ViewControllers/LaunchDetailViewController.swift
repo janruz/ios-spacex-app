@@ -11,7 +11,7 @@ class LaunchDetailViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let viewData: RocketLaunchViewData
+    private let viewData: LaunchViewData
     
     private let detailLabel = UILabel()
     
@@ -33,8 +33,8 @@ class LaunchDetailViewController: UIViewController {
     
     //MARK: - Lifecycle
     
-    init(for rocketLaunch: RocketLaunch) {
-        viewData = RocketLaunchViewData(from: rocketLaunch)
+    init(for launch: Launch) {
+        viewData = LaunchViewData(from: launch)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -59,12 +59,12 @@ extension LaunchDetailViewController {
     private func bindData() {
         detailLabel.text = viewData.details
         
-        upcomingIconLabel.setup(
+        upcomingIconLabel.configure(
             systemImageName: viewData.upcomingIconName,
             text: viewData.upcomingLabelText,
             tintColor: viewData.upcomingColor
         )
-        successIconLabel.setup(
+        successIconLabel.configure(
             systemImageName: viewData.successIconName,
             text: viewData.successLabelText,
             tintColor: viewData.successColor
@@ -72,7 +72,7 @@ extension LaunchDetailViewController {
         
         rocketNameLabel.text = viewData.rocketName
         
-        rocketStatusIconLabel.setup(
+        rocketStatusIconLabel.configure(
             systemImageName: viewData.rocketStatusIconName,
             text: viewData.rocketStatusLabelText,
             tintColor: viewData.rocketStatusColor
@@ -80,7 +80,7 @@ extension LaunchDetailViewController {
         
         launchpadNameLabel.text = viewData.launchpadName
         
-        launchpadStatusIconLabel.setup(
+        launchpadStatusIconLabel.configure(
             systemImageName: viewData.launchpadStatusIconName,
             text: viewData.launchpadStatusLabelText,
             tintColor: viewData.launchpadStatusColor

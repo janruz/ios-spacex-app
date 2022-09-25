@@ -40,7 +40,7 @@ func makeStack(
 }
 
 func makeSelectOrderActionSheet(
-    onSelect: @escaping (RocketLaunchSortOrder) -> Void
+    onSelect: @escaping (LaunchSortOrder) -> Void
 ) -> UIAlertController {
     
     let actionSheet = UIAlertController(

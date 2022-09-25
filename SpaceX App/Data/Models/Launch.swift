@@ -1,5 +1,5 @@
 //
-//  RocketLaunch.swift
+//  Launch.swift
 //  SpaceX App
 //
 //  Created by Jan Růžička on 11.09.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RocketLaunch {
+struct Launch {
     let id: String
     let name: String
     let details: String?
@@ -18,7 +18,7 @@ struct RocketLaunch {
     let launchpad: Launchpad
 }
 
-struct RocketLaunchFromApi: Decodable {
+struct LaunchFromApi: Decodable {
     let id: String
     let name: String
     let details: String?
@@ -29,11 +29,11 @@ struct RocketLaunchFromApi: Decodable {
     let launchpad: LaunchpadFromApi
 }
 
-extension Array where Element == RocketLaunchFromApi {
+extension Array where Element == LaunchFromApi {
     
-    var asRocketLaunches: [RocketLaunch] {
+    var asLaunches: [Launch] {
         map { source in
-            RocketLaunch(
+            Launch(
                 id: source.id,
                 name: source.name,
                 details: source.details,

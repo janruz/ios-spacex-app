@@ -28,8 +28,8 @@ class LaunchesCoordinator: Coordinator, LaunchesNavigation {
         navigationController.pushViewController(launchesListVC, animated: true)
     }
     
-    func goToLaunchDetail(of rocketLaunch: RocketLaunch) {
-        let launchDetailVC = LaunchDetailViewController(for: rocketLaunch)
+    func goToLaunchDetail(of launch: Launch) {
+        let launchDetailVC = LaunchDetailViewController(for: launch)
         
         navigationController.pushViewController(launchDetailVC, animated: true)
     }

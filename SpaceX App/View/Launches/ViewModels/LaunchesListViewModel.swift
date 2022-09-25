@@ -11,17 +11,17 @@ import RxRelay
 
 class LaunchesListViewModel {
     
-    let rocketLaunches = BehaviorRelay<[RocketLaunch]>(value: [])
+    let launches = BehaviorRelay<[Launch]>(value: [])
     
     let isLoading = BehaviorRelay<Bool>(value: true)
     
     let isError = BehaviorRelay<Bool>(value: false)
     
-    private var allRocketLaunches = [RocketLaunch]()
+    private var allLaunches = [Launch]()
     
     private var searchQuery = ""
     
-    let sortOrder = BehaviorRelay<RocketLaunchSortOrder>(value: RocketLaunchSortOrder.dateDesc)
+    let sortOrder = BehaviorRelay<LaunchSortOrder>(value: LaunchSortOrder.dateDesc)
     
     private let defaults = UserDefaults.standard
     
@@ -30,7 +30,7 @@ class LaunchesListViewModel {
     private let disposeBag = DisposeBag()
     
     init() {
-        if let savedSortOrder = RocketLaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
+        if let savedSortOrder = LaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
             sortOrder.accept(savedSortOrder)
         }
         
@@ -46,15 +46,15 @@ class LaunchesListViewModel {
         Task {
             isLoading.accept(true)
             
-            let result = await RocketLaunchesRepository.shared.getPastLaunches()
+            let result = await LaunchesRepository.shared.getPastLaunches()
             
             isLoading.accept(false)
             
             switch result {
             case .success(let launches):
                 self.isError.accept(false)
-                self.allRocketLaunches = launches
-                self.publishRocketLaunches()
+                self.allLaunches = launches
+                self.publishLaunches()
             case .failure(_):
                 self.isError.accept(true)
                 break
@@ -64,16 +64,16 @@ class LaunchesListViewModel {
     
     func searchLaunches(with query: String) {
         searchQuery = query
-        publishRocketLaunches()
+        publishLaunches()
     }
     
-    func order(by newSortOrder: RocketLaunchSortOrder) {
+    func order(by newSortOrder: LaunchSortOrder) {
         sortOrder.accept(newSortOrder)
-        publishRocketLaunches()
+        publishLaunches()
     }
     
-    private func publishRocketLaunches() {
-        let filtered = allRocketLaunches
+    private func publishLaunches() {
+        let filtered = allLaunches
             .filter {
                 searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
             }
@@ -86,11 +86,11 @@ class LaunchesListViewModel {
                 }
             }
         
-        rocketLaunches.accept(filtered)
+        launches.accept(filtered)
     }
 }
 
-enum RocketLaunchSortOrder: Int {
+enum LaunchSortOrder: Int {
     case dateDesc
     case dateAsc
     
