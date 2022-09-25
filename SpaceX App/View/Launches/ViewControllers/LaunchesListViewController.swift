@@ -116,34 +116,9 @@ extension LaunchesListViewController {
     }
     
     private func presentSelectOrderActionSheet() {
-        let actionSheet = UIAlertController(
-            title: NSLocalizedString(Strings.RocketLaunches.Sorting.title, comment: "Rocket launches sort order selection action sheet title"),
-            message: nil,
-            preferredStyle: UIAlertController.Style.actionSheet
-        )
-        
-        actionSheet.addAction(UIAlertAction(
-            title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateAsc, comment: "Rocket launches date asceding sort order"),
-            style: UIAlertAction.Style.default,
-            handler: { (action) -> Void in
-                self.viewModel.order(by: .dateAsc)
-            }
-        ))
-        
-        actionSheet.addAction(UIAlertAction(
-            title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateDesc, comment: "Rocket launches date descending sort order"),
-            style: UIAlertAction.Style.default,
-            handler: { (action) -> Void in
-                self.viewModel.order(by: .dateDesc)
-            }
-        ))
-        
-        actionSheet.addAction(UIAlertAction(
-            title: NSLocalizedString(Strings.cancel, comment: "Hide the action sheet"),
-            style: UIAlertAction.Style.cancel,
-            handler: { (action) -> Void in
-            }
-        ))
+        let actionSheet = makeSelectOrderActionSheet(onSelect: { sortOrder in
+            self.viewModel.order(by: sortOrder)
+        })
         
         present(actionSheet, animated: true, completion: nil)
     }
