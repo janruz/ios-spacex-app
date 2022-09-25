@@ -52,6 +52,8 @@ class RocketLaunchCell: UITableViewCell {
         return label
     }()
     
+    static let reuseID = "RocketLaunchCell"
+    
     //MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

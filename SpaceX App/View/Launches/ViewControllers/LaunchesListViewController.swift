@@ -9,8 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-fileprivate let reuseIdentifier = "rocketLaunchCell"
-
 class LaunchesListViewController: UIViewController {
     
     //MARK: - Properties
@@ -19,32 +17,13 @@ class LaunchesListViewController: UIViewController {
     
     private let viewModel: LaunchesListViewModel
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .singleLine
-        tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.refreshControl = refreshControl
-        
-        return tableView
-    }()
+    private let tableView = UITableView()
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private let errorMessageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Oops, something went wrong.\nWe could not fetch the launches."
-        label.textColor = .systemRed
-        
-        return label
-    }()
+    private let errorMessageLabel = UILabel()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
-        
-        return control
-    }()
+    private let refreshControl = UIRefreshControl()
     
     private let searchController = UISearchController()
     
@@ -66,58 +45,26 @@ class LaunchesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
-        navigationItem.searchController = searchController
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Order", style: .plain, target: self, action: #selector(orderButtonTapped))
+        setup()
+        layout()
+        bindData()
         
-        configureUI()
-        configureViewModel()
-    }
-    
-    //MARK: - Layout
-    
-    private func configureUI() {
-        view.addSubview(tableView)
-        view.addSubview(activityIndicator)
-        view.addSubview(errorMessageLabel)
-        
-        tableView.constrain(
-            top: view.topAnchor,
-            leading: view.safeAreaLayoutGuide.leadingAnchor,
-            bottom: view.bottomAnchor,
-            trailing: view.safeAreaLayoutGuide.trailingAnchor
-        )
-        
-        activityIndicator.constrain(
-            centerX: view.centerXAnchor,
-            centerY: view.centerYAnchor
-        )
-        
-        errorMessageLabel.constrain(
-            top: view.safeAreaLayoutGuide.topAnchor,
-            centerX: view.centerXAnchor
-        )
-        
-        searchController.searchBar.rx.text
-            .orEmpty
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .subscribe(onNext: { [unowned self] query in
-                self.viewModel.searchLaunches(with: query)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    private func configureViewModel() {
         viewModel.fetchPastLaunches()
-        
+    }
+}
+
+//MARK: - ViewModel
+
+extension LaunchesListViewController {
+    
+    private func bindData() {
         viewModel.rocketLaunches
             .do(onNext: { _ in
                 DispatchQueue.main.async {
                     self.tableView.refreshControl?.endRefreshing()
                 }
             })
-            .bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, launch, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: RocketLaunchCell.reuseID)) { _, launch, cell in
                 (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
             }
             .disposed(by: disposeBag)
@@ -144,21 +91,31 @@ class LaunchesListViewController: UIViewController {
             .subscribe(onNext: { [weak self] launch in
                 self?.navigation.goToLaunchDetail(of: launch)
             }).disposed(by: disposeBag)
+        
+        searchController.searchBar.rx.text
+            .orEmpty
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] query in
+                self?.viewModel.searchLaunches(with: query)
+            })
+            .disposed(by: disposeBag)
     }
-    
-    //MARK: - Selectors
+}
+
+//MARK: - Actions
+
+extension LaunchesListViewController {
     
     @objc private func orderButtonTapped() {
-       showOrderSelectionActionSheet()
+       presentSelectOrderActionSheet()
     }
     
     @objc private func refreshContent() {
         viewModel.fetchPastLaunches()
     }
     
-    //MARK: - Helpers
-    
-    private func showOrderSelectionActionSheet() {
+    private func presentSelectOrderActionSheet() {
         let actionSheet = UIAlertController(
             title: NSLocalizedString(Strings.RocketLaunches.Sorting.title, comment: "Rocket launches sort order selection action sheet title"),
             message: nil,
@@ -189,5 +146,49 @@ class LaunchesListViewController: UIViewController {
         ))
         
         present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+//MARK: - Layout
+
+extension LaunchesListViewController {
+    
+    private func setup() {
+        navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
+        navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Order", style: .plain, target: self, action: #selector(orderButtonTapped))
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .singleLine
+        tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: RocketLaunchCell.reuseID)
+        tableView.refreshControl = refreshControl
+        
+        errorMessageLabel.text = "Oops, something went wrong.\nWe could not fetch the launches."
+        errorMessageLabel.textColor = .systemRed
+        
+        refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+    }
+    
+    private func layout() {
+        view.addSubview(tableView)
+        view.addSubview(activityIndicator)
+        view.addSubview(errorMessageLabel)
+        
+        tableView.constrain(
+            top: view.topAnchor,
+            leading: view.safeAreaLayoutGuide.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.safeAreaLayoutGuide.trailingAnchor
+        )
+        
+        activityIndicator.constrain(
+            centerX: view.centerXAnchor,
+            centerY: view.centerYAnchor
+        )
+        
+        errorMessageLabel.constrain(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            centerX: view.centerXAnchor
+        )
     }
 }
