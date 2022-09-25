@@ -7,13 +7,21 @@
 
 import Foundation
 
-struct LaunchesRepository {
+protocol LaunchesRepository {
+    func getPastLaunches() async -> Result<[Launch], Error>
+}
+
+struct LaunchesRepositoryImpl: LaunchesRepository {
     
-    static let shared = LaunchesRepository()
+    static let shared = LaunchesRepositoryImpl(launchesWebService: LaunchesWebServiceImpl.shared)
     
-    private init() {}
+    private let launchesWebService: LaunchesWebService
+    
+    init(launchesWebService: LaunchesWebService) {
+        self.launchesWebService = launchesWebService
+    }
     
     func getPastLaunches() async -> Result<[Launch], Error> {
-        return await LaunchesWebService.shared.getPastLaunches().map { $0.asLaunches }
+        return await launchesWebService.getPastLaunches().map { $0.asLaunches }
     }
 }

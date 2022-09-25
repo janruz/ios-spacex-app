@@ -8,18 +8,25 @@
 import Foundation
 import Alamofire
 
-struct LaunchesWebService {
+protocol LaunchesWebService {
+    func getPastLaunches() async -> Result<[LaunchFromApi], Error>
+}
+
+struct LaunchesWebServiceImpl: LaunchesWebService {
     
-    static let shared = LaunchesWebService()
-    
-    private init() {}
+    static let shared = LaunchesWebServiceImpl()
     
     func getPastLaunches() async -> Result<[LaunchFromApi], Error> {
-        let parameters = GetLaunchesParameters(
-            query: GetLaunchesParameters.Query(upcoming: false),
-            options: GetLaunchesParameters.Options(populate: ["rocket", "launchpad"], pagination: false)
+        let parameters = GetLaunchesParameters(upcoming: false, populate: ["rocket", "launchpad"], pagination: false)
+        
+        let response = await AF.request(
+            "\(Constants.baseApiUrl)/v5/launches/query",
+            method: .post,
+            parameters: parameters,
+            encoder: JSONParameterEncoder.default
         )
-        let response = await AF.request("https://api.spacexdata.com/v5/launches/query", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).serializingDecodable(FetchLaunchesResponse.self).response
+            .serializingDecodable(FetchLaunchesResponse.self)
+            .response
         
         if let error = response.error {
             print(error)
@@ -40,6 +47,11 @@ struct LaunchesWebService {
         let query: Query
         let options: Options
         
+        init(upcoming: Bool, populate: [String], pagination: Bool) {
+            query = GetLaunchesParameters.Query(upcoming: upcoming)
+            options = GetLaunchesParameters.Options(populate: populate, pagination: pagination)
+        }
+        
         struct Query: Encodable {
             let upcoming: Bool
         }
@@ -49,6 +61,4 @@ struct LaunchesWebService {
             let pagination: Bool
         }
     }
-    
-    
 }

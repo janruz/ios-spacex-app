@@ -29,7 +29,11 @@ class LaunchesListViewModel {
     
     private let disposeBag = DisposeBag()
     
-    init() {
+    private let repository: LaunchesRepository
+    
+    init(repository: LaunchesRepository) {
+        self.repository = repository
+        
         if let savedSortOrder = LaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
             sortOrder.accept(savedSortOrder)
         }
@@ -46,7 +50,7 @@ class LaunchesListViewModel {
         Task {
             isLoading.accept(true)
             
-            let result = await LaunchesRepository.shared.getPastLaunches()
+            let result = await repository.getPastLaunches()
             
             isLoading.accept(false)
             
