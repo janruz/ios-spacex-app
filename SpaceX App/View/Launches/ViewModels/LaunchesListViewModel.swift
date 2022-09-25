@@ -13,6 +13,8 @@ class LaunchesListViewModel {
     
     let rocketLaunches = BehaviorRelay<[RocketLaunch]>(value: [])
     
+    let isLoading = BehaviorRelay<Bool>(value: true)
+    
     private var allRocketLaunches = [RocketLaunch]()
     
     private var searchQuery = ""
@@ -40,7 +42,11 @@ class LaunchesListViewModel {
     
     func fetchPastLaunches() {
         Task {
+            isLoading.accept(true)
+            
             let result = await RocketLaunchesRepository.shared.getPastLaunches()
+            
+            isLoading.accept(false)
             
             switch result {
             case .success(let launches):

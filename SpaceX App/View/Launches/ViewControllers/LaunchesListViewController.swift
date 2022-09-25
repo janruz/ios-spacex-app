@@ -24,8 +24,18 @@ class LaunchesListViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
         tableView.register(RocketLaunchCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.refreshControl = refreshControl
         
         return tableView
+    }()
+    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+        
+        return control
     }()
     
     private let searchController = UISearchController()
@@ -60,6 +70,7 @@ class LaunchesListViewController: UIViewController {
     
     private func configureUI() {
         view.addSubview(tableView)
+        view.addSubview(activityIndicator)
         
         tableView.constrain(
             top: view.topAnchor,
@@ -67,6 +78,10 @@ class LaunchesListViewController: UIViewController {
             bottom: view.bottomAnchor,
             trailing: view.safeAreaLayoutGuide.trailingAnchor
         )
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         searchController.searchBar.rx.text
             .orEmpty
@@ -81,15 +96,26 @@ class LaunchesListViewController: UIViewController {
     private func configureViewModel() {
         viewModel.fetchPastLaunches()
         
-        viewModel.rocketLaunches.bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, launch, cell in
-            (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
-        }.disposed(by: disposeBag)
+        viewModel.rocketLaunches
+            .do(onNext: { _ in
+                DispatchQueue.main.async {
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+            })
+            .bind(to: tableView.rx.items(cellIdentifier: reuseIdentifier)) { _, launch, cell in
+                (cell as! RocketLaunchCell).viewData = RocketLaunchViewData(from: launch)
+            }
+            .disposed(by: disposeBag)
         
         viewModel.sortOrder
             .map { order in
                 return "Ordered by \(order.title)"
             }
             .bind(to: navigationItem.rightBarButtonItem!.rx.title)
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .bind(to: activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
         
         tableView.rx.modelSelected(RocketLaunch.self)
@@ -102,6 +128,10 @@ class LaunchesListViewController: UIViewController {
     
     @objc private func orderButtonTapped() {
        showOrderSelectionActionSheet()
+    }
+    
+    @objc private func refreshContent() {
+        viewModel.fetchPastLaunches()
     }
     
     //MARK: - Helpers
