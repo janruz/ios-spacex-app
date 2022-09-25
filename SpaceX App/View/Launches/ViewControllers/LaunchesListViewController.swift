@@ -88,12 +88,15 @@ class LaunchesListViewController: UIViewController {
             trailing: view.safeAreaLayoutGuide.trailingAnchor
         )
         
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        activityIndicator.constrain(
+            centerX: view.centerXAnchor,
+            centerY: view.centerYAnchor
+        )
         
-        errorMessageLabel.constrain(top: view.safeAreaLayoutGuide.topAnchor)
-        errorMessageLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        errorMessageLabel.constrain(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            centerX: view.centerXAnchor
+        )
         
         searchController.searchBar.rx.text
             .orEmpty

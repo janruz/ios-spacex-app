@@ -158,14 +158,13 @@ class LaunchDetailViewController: UIViewController {
         let scrollView = UIScrollView()
         
         scrollView.addSubview(stackView)
-        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         stackView.constrain(
             top: scrollView.topAnchor,
-            leading: scrollView.leadingAnchor
+            leading: scrollView.leadingAnchor,
+            width: scrollView.widthAnchor
         )
        
         view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         scrollView.constrain(
             top: view.topAnchor,
