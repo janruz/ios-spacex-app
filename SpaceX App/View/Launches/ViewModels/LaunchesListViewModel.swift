@@ -15,6 +15,8 @@ class LaunchesListViewModel {
     
     let isLoading = BehaviorRelay<Bool>(value: true)
     
+    let isError = BehaviorRelay<Bool>(value: false)
+    
     private var allRocketLaunches = [RocketLaunch]()
     
     private var searchQuery = ""
@@ -50,9 +52,11 @@ class LaunchesListViewModel {
             
             switch result {
             case .success(let launches):
+                self.isError.accept(false)
                 self.allRocketLaunches = launches
                 self.publishRocketLaunches()
             case .failure(_):
+                self.isError.accept(true)
                 break
             }
         }

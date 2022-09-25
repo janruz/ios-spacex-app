@@ -31,6 +31,14 @@ class LaunchesListViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
+    private let errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Oops, something went wrong.\nWe could not fetch the launches."
+        label.textColor = .systemRed
+        
+        return label
+    }()
+    
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
@@ -71,6 +79,7 @@ class LaunchesListViewController: UIViewController {
     private func configureUI() {
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
+        view.addSubview(errorMessageLabel)
         
         tableView.constrain(
             top: view.topAnchor,
@@ -80,8 +89,11 @@ class LaunchesListViewController: UIViewController {
         )
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        
+        errorMessageLabel.constrain(top: view.safeAreaLayoutGuide.topAnchor)
+        errorMessageLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         searchController.searchBar.rx.text
             .orEmpty
@@ -116,6 +128,13 @@ class LaunchesListViewController: UIViewController {
         
         viewModel.isLoading
             .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        viewModel.isError
+            .map { isError in
+                return !isError
+            }
+            .bind(to: errorMessageLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
         tableView.rx.modelSelected(RocketLaunch.self)
