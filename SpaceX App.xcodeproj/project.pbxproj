@@ -59,6 +59,7 @@
 		DEB0DC1B28CE787F00F77F0F /* LaunchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchCell.swift; sourceTree = "<group>"; };
 		DEB0DC2228CE95FA00F77F0F /* LaunchesWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesWebService.swift; sourceTree = "<group>"; };
 		DEB0DC2528CE979500F77F0F /* LaunchesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesRepository.swift; sourceTree = "<group>"; };
+		DEF3968D28E26545002A4816 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				DEB0DC0228CE053C00F77F0F /* SpaceX App */,
+				DEF3968D28E26545002A4816 /* README.md */,
 				DEB0DC0128CE053C00F77F0F /* Products */,
 			);
 			sourceTree = "<group>";
