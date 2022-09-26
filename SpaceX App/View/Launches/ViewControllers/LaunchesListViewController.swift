@@ -95,56 +95,6 @@ extension LaunchesListViewController {
     }
 }
 
-//MARK: - TableView
-
-extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.launches.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LaunchCell.reuseID, for: indexPath) as! LaunchCell
-        cell.configure(with: LaunchViewData(from: viewModel.launches[indexPath.row]))
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        
-        if viewModel.isError {
-            label.text = "Oops, something went wrong.\nWe could not fetch the launches."
-            label.textColor = .systemRed
-            label.textAlignment = .center
-        } else {
-            label.text = "Ordered by \(viewModel.sortOrder.title)"
-            label.textColor = .systemGray
-        }
-        
-        let parent = UIView()
-        parent.backgroundColor = .systemBackground
-        
-        parent.addSubview(label)
-        label.constrain(
-            top: parent.topAnchor,
-            leading: parent.leadingAnchor,
-            bottom: parent.bottomAnchor,
-            trailing: parent.trailingAnchor,
-            constantTop: 8,
-            constantLeading: 16,
-            constantBottom: -8,
-            constantTrailing: -16
-        )
-
-        return parent
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigation.goToLaunchDetail(of: viewModel.launches[indexPath.row])
-    }
-}
-
 //MARK: - Actions
 
 extension LaunchesListViewController {
@@ -199,16 +149,7 @@ extension LaunchesListViewController {
             }
             .store(in: &subscriptions)
         
-        let cancelSearchPublisher = NotificationCenter.default.publisher(
-            for: UISearchTextField.textDidEndEditingNotification,
-            object: searchController.searchBar.searchTextField
-        )
-        
-        cancelSearchPublisher
-            .sink { _ in
-                self.viewModel.searchLaunches(with: "")
-            }
-            .store(in: &subscriptions)
+        searchController.searchBar.delegate = self
     }
     
     private func layout() {
@@ -226,5 +167,64 @@ extension LaunchesListViewController {
             centerX: view.centerXAnchor,
             centerY: view.centerYAnchor
         )
+    }
+}
+
+//MARK: - Search
+
+extension LaunchesListViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchLaunches(with: "")
+    }
+}
+
+//MARK: - TableView
+
+extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.launches.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: LaunchCell.reuseID, for: indexPath) as! LaunchCell
+        cell.configure(with: LaunchViewData(from: viewModel.launches[indexPath.row]))
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        
+        if viewModel.isError {
+            label.text = "Oops, something went wrong.\nWe could not fetch the launches."
+            label.textColor = .systemRed
+            label.textAlignment = .center
+        } else {
+            label.text = "Ordered by \(viewModel.sortOrder.title)"
+            label.textColor = .systemGray
+        }
+        
+        let parent = UIView()
+        parent.backgroundColor = .systemBackground
+        
+        parent.addSubview(label)
+        label.constrain(
+            top: parent.topAnchor,
+            leading: parent.leadingAnchor,
+            bottom: parent.bottomAnchor,
+            trailing: parent.trailingAnchor,
+            constantTop: 8,
+            constantLeading: 16,
+            constantBottom: -8,
+            constantTrailing: -16
+        )
+
+        return parent
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigation.goToLaunchDetail(of: viewModel.launches[indexPath.row])
     }
 }
