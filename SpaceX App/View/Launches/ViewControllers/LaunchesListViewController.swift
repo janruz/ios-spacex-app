@@ -29,6 +29,10 @@ class LaunchesListViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
+    private var launches = [Launch]()
+    
+    private var sortOrder: LaunchSortOrder?
+    
     //MARK: - Lifecycle
     
     init(navigation: LaunchesNavigation, viewModel: LaunchesListViewModel) {
@@ -58,17 +62,18 @@ class LaunchesListViewController: UIViewController {
 extension LaunchesListViewController {
     
     private func bindData() {
+        
         viewModel.launches
-            .bind(to: tableView.rx.items(cellIdentifier: LaunchCell.reuseID)) { _, launch, cell in
-                (cell as! LaunchCell).configure(with: LaunchViewData(from: launch))
-            }
+            .subscribe(onNext: { launches in
+                self.launches = launches
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            })
             .disposed(by: disposeBag)
         
         viewModel.sortOrder
-            .map { order in
-                return "Ordered by \(order.title)"
-            }
-            .bind(to: navigationItem.rightBarButtonItem!.rx.title)
+            .bind(to: self.rx.sortOrder)
             .disposed(by: disposeBag)
         
         viewModel.isLoading
@@ -85,20 +90,32 @@ extension LaunchesListViewController {
             }
             .bind(to: errorMessageLabel.rx.isHidden)
             .disposed(by: disposeBag)
+    }
+}
+
+extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return launches.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: LaunchCell.reuseID, for: indexPath) as! LaunchCell
+        cell.configure(with: LaunchViewData(from: launches[indexPath.row]))
         
-        tableView.rx.modelSelected(Launch.self)
-            .subscribe(onNext: { [weak self] launch in
-                self?.navigation.goToLaunchDetail(of: launch)
-            }).disposed(by: disposeBag)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let safeSortOrder = sortOrder else {
+            return nil
+        }
         
-        searchController.searchBar.rx.text
-            .orEmpty
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] query in
-                self?.viewModel.searchLaunches(with: query)
-            })
-            .disposed(by: disposeBag)
+        return "Ordered by \(safeSortOrder.title)"
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigation.goToLaunchDetail(of: launches[indexPath.row])
     }
 }
 
@@ -136,11 +153,22 @@ extension LaunchesListViewController {
         tableView.separatorStyle = .singleLine
         tableView.register(LaunchCell.self, forCellReuseIdentifier: LaunchCell.reuseID)
         tableView.refreshControl = refreshControl
+        tableView.dataSource = self
+        tableView.delegate = self
         
         errorMessageLabel.text = "Oops, something went wrong.\nWe could not fetch the launches."
         errorMessageLabel.textColor = .systemRed
         
         refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+        
+        searchController.searchBar.rx.text
+            .orEmpty
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] query in
+                self?.viewModel.searchLaunches(with: query)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func layout() {

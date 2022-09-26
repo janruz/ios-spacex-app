@@ -135,8 +135,8 @@ enum LaunchSortOrder: Int {
     
     var title: String {
         switch self {
-        case .dateAsc: return "date asc"
-        case .dateDesc: return "date desc"
+        case .dateAsc: return "date ascending"
+        case .dateDesc: return "date descending"
         }
     }
 }
