@@ -100,6 +100,7 @@ extension LaunchDetailViewController {
         stackView.constrain(
             top: scrollView.topAnchor,
             leading: scrollView.leadingAnchor,
+            bottom: scrollView.bottomAnchor,
             width: scrollView.widthAnchor
         )
        
