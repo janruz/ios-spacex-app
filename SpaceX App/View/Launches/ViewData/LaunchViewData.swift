@@ -19,17 +19,8 @@ struct LaunchViewData {
     let successLabelText: String
     let successColor: UIColor
     
-    let rocketName: String
-    
-    let rocketStatusIconName: String
-    let rocketStatusLabelText: String
-    let rocketStatusColor: UIColor
-    
-    let launchpadName: String
-    
-    let launchpadStatusIconName: String
-    let launchpadStatusLabelText: String
-    let launchpadStatusColor: UIColor
+    let rocketText: NSAttributedString
+    let launchpadText: NSAttributedString
     
     //MARK: - Lifecycle
     
@@ -56,16 +47,24 @@ struct LaunchViewData {
             successColor = .systemYellow
         }
         
-        rocketName = launch.rocket.name
-        
-        rocketStatusIconName = launch.rocket.active ? "checkmark.seal.fill" : "clear.fill"
-        rocketStatusLabelText = launch.rocket.active ? "Active" : "Inactive"
-        rocketStatusColor = launch.rocket.active ? UIColor.systemMint : UIColor.systemRed
-        
-        launchpadName = launch.launchpad.name
-        
-        launchpadStatusIconName = "checkmark.seal.fill"
-        launchpadStatusLabelText = launch.launchpad.status.rawValue.capitalized
-        launchpadStatusColor = .systemTeal
+        let rocketString = NSMutableAttributedString(string: "Rocket: ", attributes: [:])
+        let rocketNameString = NSAttributedString(
+            string: launch.rocket.name,
+            attributes: [
+                .font: UIFont.boldSystemFont(ofSize: 17)
+            ]
+        )
+        rocketString.append(rocketNameString)
+        rocketText = rocketString
+    
+        let launchpadString = NSMutableAttributedString(string: "Launchpad: ", attributes: [:])
+        let launchpadNameString = NSAttributedString(
+            string: launch.launchpad.name,
+            attributes: [
+                .font: UIFont.boldSystemFont(ofSize: 17)
+            ]
+        )
+        launchpadString.append(launchpadNameString)
+        launchpadText = launchpadString
     }
 }

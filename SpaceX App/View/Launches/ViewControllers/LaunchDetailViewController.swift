@@ -17,17 +17,11 @@ class LaunchDetailViewController: UIViewController {
         
     private let successIconLabel = IconLabelView()
     
-    private let rocketInfoHeadline = UILabel()
+    private let moreDetailsHeadline = UILabel()
     
     private let rocketNameLabel = UILabel()
     
-    private let rocketStatusIconLabel = IconLabelView()
-    
-    private let launchpadInfoHeadline = UILabel()
-    
     private let launchpadNameLabel = UILabel()
-    
-    private let launchpadStatusIconLabel = IconLabelView()
     
     //MARK: - Lifecycle
     
@@ -63,21 +57,9 @@ extension LaunchDetailViewController {
             tintColor: viewData.successColor
         )
         
-        rocketNameLabel.text = viewData.rocketName
+        rocketNameLabel.attributedText = viewData.rocketText
         
-        rocketStatusIconLabel.configure(
-            systemImageName: viewData.rocketStatusIconName,
-            text: viewData.rocketStatusLabelText,
-            tintColor: viewData.rocketStatusColor
-        )
-        
-        launchpadNameLabel.text = viewData.launchpadName
-        
-        launchpadStatusIconLabel.configure(
-            systemImageName: viewData.launchpadStatusIconName,
-            text: viewData.launchpadStatusLabelText,
-            tintColor: viewData.launchpadStatusColor
-        )
+        launchpadNameLabel.attributedText = viewData.launchpadText
     }
 }
 
@@ -87,35 +69,30 @@ extension LaunchDetailViewController {
         detailLabel.font = .preferredFont(forTextStyle: .body)
         detailLabel.numberOfLines = 0
         
-        rocketInfoHeadline.font = .preferredFont(forTextStyle: .headline)
-        rocketInfoHeadline.text = "Rocket"
+        moreDetailsHeadline.font = .preferredFont(forTextStyle: .headline)
+        moreDetailsHeadline.text = "More details"
         
         rocketNameLabel.font = .preferredFont(forTextStyle: .body)
-        
-        launchpadInfoHeadline.font = .preferredFont(forTextStyle: .headline)
-        launchpadInfoHeadline.text = "Launchpad"
         
         launchpadNameLabel.font = .preferredFont(forTextStyle: .body)
     }
     
     private func layout() {
         view.backgroundColor = .systemBackground
+    
+        let separator = UIView()
+        separator.backgroundColor = .separator
         
-        let rocketInfoStack = makeStack(.vertical, 8, .fill, [
-            rocketInfoHeadline, rocketNameLabel, rocketStatusIconLabel
-        ])
-        
-        let launchpadInfoStack = makeStack(.vertical, 8, .fill, [
-            launchpadInfoHeadline, launchpadNameLabel, launchpadStatusIconLabel
-        ])
-        
-        let otherInfoStack = makeStack(.horizontal, 0, .fillEqually, .top, [
-            rocketInfoStack, launchpadInfoStack
-        ])
-                
         let stackView = makeStack(.vertical, 16, .fill, .leading, [
-            detailLabel, successIconLabel, otherInfoStack
+            detailLabel,
+            successIconLabel,
+            separator,
+            moreDetailsHeadline,
+            rocketNameLabel,
+            launchpadNameLabel
         ])
+        
+        separator.constrain(width: stackView.widthAnchor, heightConstant: 1)
         
         let scrollView = UIScrollView()
         
