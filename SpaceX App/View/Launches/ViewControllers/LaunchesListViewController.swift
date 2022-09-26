@@ -20,8 +20,6 @@ class LaunchesListViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private let errorMessageLabel = UILabel()
-    
     private let refreshControl = UIRefreshControl()
     
     private let searchController = UISearchController()
@@ -90,7 +88,9 @@ extension LaunchesListViewController {
                 return !isError
             }
             .receive(on: RunLoop.main)
-            .assign(to: \.isHidden, on: errorMessageLabel)
+            .sink { isError in
+                self.tableView.reloadData()
+            }
             .store(in: &subscriptions)
     }
 }
@@ -110,8 +110,34 @@ extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Ordered by \(viewModel.sortOrder.title)"
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        
+        if viewModel.isError {
+            label.text = "Oops, something went wrong.\nWe could not fetch the launches."
+            label.textColor = .systemRed
+            label.textAlignment = .center
+        } else {
+            label.text = "Ordered by \(viewModel.sortOrder.title)"
+            label.textColor = .systemGray
+        }
+        
+        let parent = UIView()
+        parent.backgroundColor = .systemBackground
+        
+        parent.addSubview(label)
+        label.constrain(
+            top: parent.topAnchor,
+            leading: parent.leadingAnchor,
+            bottom: parent.bottomAnchor,
+            trailing: parent.trailingAnchor,
+            constantTop: 8,
+            constantLeading: 16,
+            constantBottom: -8,
+            constantTrailing: -16
+        )
+
+        return parent
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -156,9 +182,6 @@ extension LaunchesListViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        errorMessageLabel.text = "Oops, something went wrong.\nWe could not fetch the launches."
-        errorMessageLabel.textColor = .systemRed
-        
         refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
         
         let searchTextPublisher = NotificationCenter.default.publisher(
@@ -191,7 +214,6 @@ extension LaunchesListViewController {
     private func layout() {
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
-        view.addSubview(errorMessageLabel)
         
         tableView.constrain(
             top: view.topAnchor,
@@ -203,11 +225,6 @@ extension LaunchesListViewController {
         activityIndicator.constrain(
             centerX: view.centerXAnchor,
             centerY: view.centerYAnchor
-        )
-        
-        errorMessageLabel.constrain(
-            top: view.safeAreaLayoutGuide.topAnchor,
-            centerX: view.centerXAnchor
         )
     }
 }
