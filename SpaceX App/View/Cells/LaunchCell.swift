@@ -11,8 +11,6 @@ class LaunchCell: UITableViewCell {
     
     //MARK: - Properties
     
-    private let upcomingIconLabel = IconLabelView()
-    
     private let successIconLabel = IconLabelView()
     
     private let nameLabel = UILabel()
@@ -44,12 +42,6 @@ extension LaunchCell {
         nameLabel.text = launchData.name
         detailLabel.text = launchData.details
         
-        upcomingIconLabel.configure(
-            systemImageName: launchData.upcomingIconName,
-            text: launchData.upcomingLabelText,
-            tintColor: launchData.upcomingColor
-        )
-        
         successIconLabel.configure(
             systemImageName: launchData.successIconName,
             text: launchData.successLabelText,
@@ -73,25 +65,17 @@ extension LaunchCell {
     }
     
     private func layout() {
-        contentView.addSubview(upcomingIconLabel)
-        upcomingIconLabel.constrain(
+        contentView.addSubview(successIconLabel)
+        successIconLabel.constrain(
             top: contentView.topAnchor,
             leading: contentView.leadingAnchor,
             constantTop: 12,
             constantLeading: 12
         )
         
-        contentView.addSubview(successIconLabel)
-        successIconLabel.constrain(
-            top: contentView.topAnchor,
-            leading: upcomingIconLabel.trailingAnchor,
-            constantTop: 12,
-            constantLeading: 24
-        )
-        
         contentView.addSubview(nameLabel)
         nameLabel.constrain(
-            top: upcomingIconLabel.bottomAnchor,
+            top: successIconLabel.bottomAnchor,
             leading: contentView.leadingAnchor,
             trailing: contentView.trailingAnchor,
             constantTop: 16,

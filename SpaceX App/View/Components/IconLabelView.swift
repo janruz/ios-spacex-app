@@ -16,7 +16,7 @@ class IconLabelView: UIView {
     private let label = UILabel()
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: 20 + 8 + label.frame.width, height: 20)
+        return CGSize(width: imageView.frame.width + 8 + label.frame.width, height: max(imageView.frame.height, label.frame.height))
     }
     
     //MARK: - Lifecycle
@@ -58,10 +58,9 @@ extension IconLabelView {
         addSubview(imageView)
         imageView.constrain(
             top: topAnchor,
-            leading: leadingAnchor,
-            widthConstant: 20,
-            heightConstant: 20
+            leading: leadingAnchor
         )
+        imageView.setContentHuggingPriority(UILayoutPriority(800), for: .horizontal)
         
         addSubview(label)
         label.constrain(

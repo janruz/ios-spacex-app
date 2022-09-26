@@ -15,10 +15,6 @@ struct LaunchViewData {
     let name: String
     let details: String
     
-    let upcomingIconName: String
-    let upcomingLabelText: String
-    let upcomingColor: UIColor
-    
     let successIconName: String
     let successLabelText: String
     let successColor: UIColor
@@ -40,16 +36,6 @@ struct LaunchViewData {
     init(from launch: Launch) {
         name = launch.name
         details = launch.details ?? ""
-        
-        if launch.upcoming {
-            upcomingIconName = "clock.fill"
-            upcomingLabelText = NSLocalizedString(Strings.RocketLaunches.upcoming, comment: "Upcoming rocket launch label")
-            upcomingColor = .systemOrange
-        } else {
-            upcomingIconName = "clock.badge.checkmark.fill"
-            upcomingLabelText = NSLocalizedString(Strings.RocketLaunches.past, comment: "Past rocket launch label")
-            upcomingColor = .systemBlue
-        }
         
         if let successful = launch.successful {
             

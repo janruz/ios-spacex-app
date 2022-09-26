@@ -14,9 +14,7 @@ class LaunchDetailViewController: UIViewController {
     private let viewData: LaunchViewData
     
     private let detailLabel = UILabel()
-    
-    private let upcomingIconLabel = IconLabelView()
-    
+        
     private let successIconLabel = IconLabelView()
     
     private let rocketInfoHeadline = UILabel()
@@ -59,11 +57,6 @@ extension LaunchDetailViewController {
     private func bindData() {
         detailLabel.text = viewData.details
         
-        upcomingIconLabel.configure(
-            systemImageName: viewData.upcomingIconName,
-            text: viewData.upcomingLabelText,
-            tintColor: viewData.upcomingColor
-        )
         successIconLabel.configure(
             systemImageName: viewData.successIconName,
             text: viewData.successLabelText,
@@ -107,10 +100,6 @@ extension LaunchDetailViewController {
     
     private func layout() {
         view.backgroundColor = .systemBackground
-                
-        let iconLabelsStack = makeStack(.horizontal, 16, .fill, [
-            upcomingIconLabel, successIconLabel
-        ])
         
         let rocketInfoStack = makeStack(.vertical, 8, .fill, [
             rocketInfoHeadline, rocketNameLabel, rocketStatusIconLabel
@@ -125,7 +114,7 @@ extension LaunchDetailViewController {
         ])
                 
         let stackView = makeStack(.vertical, 16, .fill, .leading, [
-            detailLabel, iconLabelsStack, otherInfoStack
+            detailLabel, successIconLabel, otherInfoStack
         ])
         
         let scrollView = UIScrollView()
