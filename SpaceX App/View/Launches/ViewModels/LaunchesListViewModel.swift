@@ -6,35 +6,19 @@
 //
 
 import Foundation
-import RxSwift
-import RxRelay
+import Combine
 
 class LaunchesListViewModel {
     
-    private let _launches = BehaviorRelay<[Launch]>(value: [])
-    var launches: Observable<[Launch]> {
-        _launches.asObservable()
-    }
+    @Published private(set) var launches = [Launch]()
     
-    private let _isLoading = BehaviorRelay<Bool>(value: true)
-    var isLoading: Observable<Bool> {
-        _isLoading.asObservable()
-    }
+    @Published private(set) var isLoading = true
     
-    private let _isRefreshing = BehaviorRelay<Bool>(value: false)
-    var isRefreshing: Observable<Bool> {
-        _isRefreshing.asObservable()
-    }
+    @Published private(set) var isRefreshing = false
     
-    private let _isError = BehaviorRelay<Bool>(value: false)
-    var isError: Observable<Bool> {
-        _isError.asObservable()
-    }
+    @Published private(set) var isError = false
     
-    private let _sortOrder = BehaviorRelay<LaunchSortOrder>(value: LaunchSortOrder.dateDesc)
-    var sortOrder: Observable<LaunchSortOrder> {
-        _sortOrder.asObservable()
-    }
+    @Published private(set) var sortOrder = LaunchSortOrder.dateDesc
     
     private var allLaunches = [Launch]()
     
@@ -44,7 +28,7 @@ class LaunchesListViewModel {
     
     private static let sortOrderKey = "launchesSortOrder"
     
-    private let disposeBag = DisposeBag()
+    private var subscriptions = Set<AnyCancellable>()
     
     private let repository: LaunchesRepository
     
@@ -52,25 +36,25 @@ class LaunchesListViewModel {
         self.repository = repository
         
         if let savedSortOrder = LaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
-            _sortOrder.accept(savedSortOrder)
+            sortOrder = savedSortOrder
         }
         
-        sortOrder
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] order in
+        $sortOrder
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .sink { order in
                 self.defaults.set(order.rawValue, forKey: LaunchesListViewModel.sortOrderKey)
-            })
-            .disposed(by: disposeBag)
+            }
+            .store(in: &subscriptions)
     }
     
     func fetchLaunches() {
         Task {
-            _isError.accept(false)
-            _isLoading.accept(true)
+            isError = false
+            isLoading = true
             
             let result = await repository.getPastLaunches()
             
-            _isLoading.accept(false)
+            isLoading = false
             
             handleLaunchesResult(result)
         }
@@ -78,12 +62,12 @@ class LaunchesListViewModel {
     
     func refreshLaunches() {
         Task {
-            _isError.accept(false)
-            _isRefreshing.accept(true)
+            isError = false
+            isRefreshing = true
             
             let result = await repository.getPastLaunches()
             
-            _isRefreshing.accept(false)
+            isRefreshing = false
             
             handleLaunchesResult(result)
         }
@@ -95,18 +79,18 @@ class LaunchesListViewModel {
     }
     
     func order(by newSortOrder: LaunchSortOrder) {
-        _sortOrder.accept(newSortOrder)
+        sortOrder = newSortOrder
         publishLaunches()
     }
     
     private func handleLaunchesResult(_ result: Result<[Launch], Error>) {
         switch result {
         case .success(let launches):
-            self._isError.accept(false)
+            self.isError = false
             self.allLaunches = launches
             self.publishLaunches()
         case .failure(_):
-            self._isError.accept(true)
+            self.isError = true
             break
         }
     }
@@ -117,7 +101,7 @@ class LaunchesListViewModel {
                 searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
             }
             .sorted {
-                switch self._sortOrder.value {
+                switch self.sortOrder {
                 case .dateDesc:
                     return $0.date > $1.date
                 case .dateAsc:
@@ -125,7 +109,7 @@ class LaunchesListViewModel {
                 }
             }
         
-        _launches.accept(filtered)
+        launches = filtered
     }
 }
 

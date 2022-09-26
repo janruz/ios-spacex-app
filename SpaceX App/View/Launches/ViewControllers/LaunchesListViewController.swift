@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
 
 class LaunchesListViewController: UIViewController {
     
@@ -27,11 +26,7 @@ class LaunchesListViewController: UIViewController {
     
     private let searchController = UISearchController()
     
-    private let disposeBag = DisposeBag()
-    
-    private var launches = [Launch]()
-    
-    private var sortOrder: LaunchSortOrder?
+    private var subscriptions = Set<AnyCancellable>()
     
     //MARK: - Lifecycle
     
@@ -62,60 +57,65 @@ class LaunchesListViewController: UIViewController {
 extension LaunchesListViewController {
     
     private func bindData() {
+        viewModel.$launches
+            .receive(on: RunLoop.main)
+            .sink { launches in
+                self.tableView.reloadData()
+            }
+            .store(in: &subscriptions)
         
-        viewModel.launches
-            .subscribe(onNext: { launches in
-                self.launches = launches
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            })
-            .disposed(by: disposeBag)
+        viewModel.$sortOrder
+            .receive(on: RunLoop.main)
+            .sink { _ in
+                self.tableView.reloadData()
+            }
+            .store(in: &subscriptions)
         
-        viewModel.sortOrder
-            .bind(to: self.rx.sortOrder)
-            .disposed(by: disposeBag)
+        viewModel.$isLoading
+            .receive(on: RunLoop.main)
+            .sink { isLoading in
+                isLoading ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
+            }
+            .store(in: &subscriptions)
         
-        viewModel.isLoading
-            .bind(to: activityIndicator.rx.isAnimating)
-            .disposed(by: disposeBag)
+        viewModel.$isRefreshing
+            .receive(on: RunLoop.main)
+            .sink { isRefreshing in
+                isRefreshing ? self.refreshControl.beginRefreshing() : self.refreshControl.endRefreshing()
+            }
+            .store(in: &subscriptions)
         
-        viewModel.isRefreshing
-            .bind(to: refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
-        
-        viewModel.isError
+        viewModel.$isError
             .map { isError in
                 return !isError
             }
-            .bind(to: errorMessageLabel.rx.isHidden)
-            .disposed(by: disposeBag)
+            .receive(on: RunLoop.main)
+            .assign(to: \.isHidden, on: errorMessageLabel)
+            .store(in: &subscriptions)
     }
 }
+
+//MARK: - TableView
 
 extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return launches.count
+        return viewModel.launches.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LaunchCell.reuseID, for: indexPath) as! LaunchCell
-        cell.configure(with: LaunchViewData(from: launches[indexPath.row]))
+        cell.configure(with: LaunchViewData(from: viewModel.launches[indexPath.row]))
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let safeSortOrder = sortOrder else {
-            return nil
-        }
-        
-        return "Ordered by \(safeSortOrder.title)"
+        return "Ordered by \(viewModel.sortOrder.title)"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigation.goToLaunchDetail(of: launches[indexPath.row])
+        navigation.goToLaunchDetail(of: viewModel.launches[indexPath.row])
     }
 }
 
@@ -161,14 +161,31 @@ extension LaunchesListViewController {
         
         refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
         
-        searchController.searchBar.rx.text
-            .orEmpty
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] query in
-                self?.viewModel.searchLaunches(with: query)
-            })
-            .disposed(by: disposeBag)
+        let searchTextPublisher = NotificationCenter.default.publisher(
+            for: UISearchTextField.textDidChangeNotification,
+            object: searchController.searchBar.searchTextField
+        )
+
+        searchTextPublisher
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .map { notification in
+                (notification.object as? UISearchTextField)?.text ?? ""
+            }
+            .sink { query in
+                self.viewModel.searchLaunches(with: query)
+            }
+            .store(in: &subscriptions)
+        
+        let cancelSearchPublisher = NotificationCenter.default.publisher(
+            for: UISearchTextField.textDidEndEditingNotification,
+            object: searchController.searchBar.searchTextField
+        )
+        
+        cancelSearchPublisher
+            .sink { _ in
+                self.viewModel.searchLaunches(with: "")
+            }
+            .store(in: &subscriptions)
     }
     
     private func layout() {
