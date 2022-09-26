@@ -12,7 +12,7 @@ class LaunchesListViewModel {
     
     @Published private(set) var launches = [Launch]()
     
-    @Published private(set) var isLoading = true
+    @Published private(set) var isLoading = false
     
     @Published private(set) var isRefreshing = false
     
@@ -48,6 +48,8 @@ class LaunchesListViewModel {
     }
     
     func fetchLaunches() {
+        guard !isLoading else { return }
+        
         Task {
             isError = false
             isLoading = true
@@ -61,6 +63,8 @@ class LaunchesListViewModel {
     }
     
     func refreshLaunches() {
+        guard !isRefreshing else { return }
+        
         Task {
             isError = false
             isRefreshing = true

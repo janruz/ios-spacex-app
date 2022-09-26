@@ -57,7 +57,7 @@ extension LaunchesListViewController {
     private func bindData() {
         viewModel.$launches
             .receive(on: RunLoop.main)
-            .sink { launches in
+            .sink { _ in
                 self.tableView.reloadData()
             }
             .store(in: &subscriptions)
@@ -84,11 +84,8 @@ extension LaunchesListViewController {
             .store(in: &subscriptions)
         
         viewModel.$isError
-            .map { isError in
-                return !isError
-            }
             .receive(on: RunLoop.main)
-            .sink { isError in
+            .sink { _ in
                 self.tableView.reloadData()
             }
             .store(in: &subscriptions)
