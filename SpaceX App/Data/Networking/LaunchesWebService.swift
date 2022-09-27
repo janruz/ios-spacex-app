@@ -20,7 +20,7 @@ struct LaunchesWebServiceImpl: LaunchesWebService {
         let parameters = GetLaunchesParameters(upcoming: false, populate: ["rocket", "launchpad"], pagination: false)
         
         let response = await AF.request(
-            "\(Constants.baseApiUrl)/v5/launches/query",
+            "\(Constants.baseApiUrl)/v4/launches/query",
             method: .post,
             parameters: parameters,
             encoder: JSONParameterEncoder.default

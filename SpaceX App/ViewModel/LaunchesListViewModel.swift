@@ -100,20 +100,19 @@ class LaunchesListViewModel {
     }
     
     private func publishLaunches() {
-        let filtered = allLaunches
-            .filter {
-                searchQuery.isEmpty ? true : $0.name.lowercased().contains(searchQuery.lowercased())
+        
+        launches = allLaunches
+            .filter { launch in
+                searchQuery.isEmpty ? true : launch.name.lowercased().contains(searchQuery.lowercased())
             }
-            .sorted {
+            .sorted { (launch0: Launch, launch1: Launch) in
                 switch self.sortOrder {
                 case .dateDesc:
-                    return $0.date > $1.date
+                    return Date(timeIntervalSince1970: TimeInterval(launch0.dateUnix)) > Date(timeIntervalSince1970: TimeInterval(launch1.dateUnix))
                 case .dateAsc:
-                    return $0.date < $1.date
+                    return Date(timeIntervalSince1970: TimeInterval(launch0.dateUnix)) < Date(timeIntervalSince1970: TimeInterval(launch1.dateUnix))
                 }
             }
-        
-        launches = filtered
     }
 }
 

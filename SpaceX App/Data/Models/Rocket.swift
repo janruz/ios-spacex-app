@@ -9,17 +9,15 @@ import Foundation
 
 struct Rocket {
     let name: String
-    let active: Bool
 }
 
 struct RocketFromApi: Decodable {
     let name: String
-    let active: Bool
 }
 
 extension RocketFromApi {
     
     var asRocket: Rocket {
-        Rocket(name: self.name, active: self.active)
+        Rocket(name: self.name)
     }
 }

@@ -13,7 +13,7 @@ struct Launch {
     let details: String?
     let successful: Bool?
     let upcoming: Bool
-    let date: String
+    let dateUnix: Int
     let rocket: Rocket
     let launchpad: Launchpad
 }
@@ -24,7 +24,7 @@ struct LaunchFromApi: Decodable {
     let details: String?
     let success: Bool?
     let upcoming: Bool
-    let date_utc: String
+    let date_unix: Int
     let rocket: RocketFromApi
     let launchpad: LaunchpadFromApi
 }
@@ -39,7 +39,7 @@ extension Array where Element == LaunchFromApi {
                 details: source.details,
                 successful: source.success,
                 upcoming: source.upcoming,
-                date: source.date_utc,
+                dateUnix: source.date_unix,
                 rocket: source.rocket.asRocket,
                 launchpad: source.launchpad.asLaunchpad
             )

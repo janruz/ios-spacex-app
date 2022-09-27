@@ -14,6 +14,8 @@ class LaunchDetailViewController: UIViewController {
     private let viewData: LaunchViewData
     
     private let detailLabel = UILabel()
+    
+    private let dateLabel = UILabel()
         
     private let successIconLabel = IconLabelView()
     
@@ -50,6 +52,7 @@ extension LaunchDetailViewController {
     
     private func bindData() {
         detailLabel.text = viewData.details
+        dateLabel.text = viewData.dateText
         
         successIconLabel.configure(
             systemImageName: viewData.successIconName,
@@ -69,6 +72,9 @@ extension LaunchDetailViewController {
         detailLabel.font = .preferredFont(forTextStyle: .body)
         detailLabel.numberOfLines = 0
         
+        dateLabel.font = .preferredFont(forTextStyle: .body)
+        dateLabel.textColor = .systemGray
+        
         moreDetailsHeadline.font = .preferredFont(forTextStyle: .headline)
         moreDetailsHeadline.text = "More details"
         
@@ -85,6 +91,7 @@ extension LaunchDetailViewController {
         
         let stackView = makeStack(.vertical, 16, .fill, .leading, [
             detailLabel,
+            dateLabel,
             successIconLabel,
             separator,
             moreDetailsHeadline,

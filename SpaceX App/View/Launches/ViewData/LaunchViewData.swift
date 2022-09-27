@@ -14,6 +14,7 @@ struct LaunchViewData {
     
     let name: String
     let details: String
+    let dateText: String
     
     let successIconName: String
     let successLabelText: String
@@ -27,6 +28,11 @@ struct LaunchViewData {
     init(from launch: Launch) {
         name = launch.name
         details = launch.details ?? ""
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.YYYY"
+        
+        dateText = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(launch.dateUnix)))
         
         if let successful = launch.successful {
             
