@@ -58,7 +58,7 @@ extension LaunchCell {
         accessoryType = .disclosureIndicator
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        nameLabel.numberOfLines = 1
+        nameLabel.numberOfLines = 2
         
         detailLabel.font = UIFont.systemFont(ofSize: 16)
         detailLabel.numberOfLines = 3
