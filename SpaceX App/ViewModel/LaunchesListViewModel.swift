@@ -63,7 +63,7 @@ class LaunchesListViewModel {
     }
     
     func refreshLaunches() {
-        guard !isRefreshing else { return }
+        guard !isRefreshing && !isLoading else { return }
         
         Task {
             isError = false
