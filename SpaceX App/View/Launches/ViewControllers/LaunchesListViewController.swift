@@ -198,6 +198,7 @@ extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
+        label.numberOfLines = 0
         
         if viewModel.isError {
             label.text = NSLocalizedString(Strings.Errors.defaultErrorMessage, comment: "Error message")
