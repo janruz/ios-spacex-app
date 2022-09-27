@@ -25,7 +25,10 @@ class LaunchesCoordinator: Coordinator, LaunchesNavigation {
     func goToLaunchesList() {
         let launchesListVC = LaunchesListViewController(
             navigation: self,
-            viewModel: LaunchesListViewModel(repository: LaunchesRepositoryImpl.shared)
+            viewModel: LaunchesListViewModel(
+                repository: LaunchesRepositoryImpl.shared,
+                prefs: UserDefaultsPreferencesStorage.shared
+            )
         )
         
         navigationController.pushViewController(launchesListVC, animated: true)

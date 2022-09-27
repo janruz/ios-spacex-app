@@ -10,6 +10,8 @@ import Combine
 
 class LaunchesListViewModel {
     
+    private static let sortOrderKey = "launchesSortOrder"
+    
     @Published private(set) var launches = [Launch]()
     
     @Published private(set) var isLoading = false
@@ -24,25 +26,24 @@ class LaunchesListViewModel {
     
     private var searchQuery = ""
     
-    private let defaults = UserDefaults.standard
-    
-    private static let sortOrderKey = "launchesSortOrder"
-    
     private var subscriptions = Set<AnyCancellable>()
     
     private let repository: LaunchesRepository
     
-    init(repository: LaunchesRepository) {
+    private let prefs: UserPreferencesStorage
+    
+    init(repository: LaunchesRepository, prefs: UserPreferencesStorage) {
         self.repository = repository
+        self.prefs = prefs
         
-        if let savedSortOrder = LaunchSortOrder(rawValue: defaults.integer(forKey: LaunchesListViewModel.sortOrderKey)) {
+        if let savedSortOrder = LaunchSortOrder(rawValue: prefs.get(key: LaunchesListViewModel.sortOrderKey) ?? 0) {
             sortOrder = savedSortOrder
         }
         
         $sortOrder
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .sink { order in
-                self.defaults.set(order.rawValue, forKey: LaunchesListViewModel.sortOrderKey)
+                self.prefs.save(key: LaunchesListViewModel.sortOrderKey, value: order.rawValue)
             }
             .store(in: &subscriptions)
     }
