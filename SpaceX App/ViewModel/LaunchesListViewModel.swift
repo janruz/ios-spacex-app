@@ -10,6 +10,8 @@ import Combine
 
 class LaunchesListViewModel {
     
+    //MARK: - Properties
+    
     private static let sortOrderKey = "launchesSortOrder"
     
     @Published private(set) var launches = [Launch]()
@@ -32,6 +34,8 @@ class LaunchesListViewModel {
     
     private let prefs: UserPreferencesStorage
     
+    //MARK: - Lifecycle
+    
     init(repository: LaunchesRepository, prefs: UserPreferencesStorage) {
         self.repository = repository
         self.prefs = prefs
@@ -47,6 +51,8 @@ class LaunchesListViewModel {
             }
             .store(in: &subscriptions)
     }
+    
+    //MARK: - Functionality
     
     func fetchLaunches() {
         guard !isLoading else { return }
@@ -116,6 +122,8 @@ class LaunchesListViewModel {
             }
     }
 }
+
+//MARK: - Sorting
 
 enum LaunchSortOrder: Int {
     case dateDesc
