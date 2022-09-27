@@ -26,3 +26,4 @@ The viewModels layer is what binds the previous 2 layers together. ViewModels us
 - REST API communication - Alamofire
 - JSON parsing - Codable
 - Package management - Swift Package Manager
+- IDE - Xcode 14.0
