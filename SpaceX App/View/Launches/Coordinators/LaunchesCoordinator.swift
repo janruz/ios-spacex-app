@@ -9,14 +9,20 @@ import UIKit
 
 class LaunchesCoordinator: Coordinator, LaunchesNavigation {
     
+    //MARK: - Properties
+    
     var parent: Coordinator?
     
     private var navigationController: UINavigationController
+    
+    //MARK: - Lifecycle
     
     init(navController : UINavigationController, parent: Coordinator?) {
         self.navigationController = navController
         self.parent = parent
     }
+    
+    //MARK: - Functionality
     
     func start() {
         goToLaunchesList()

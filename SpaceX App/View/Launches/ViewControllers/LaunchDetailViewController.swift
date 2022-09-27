@@ -48,6 +48,8 @@ class LaunchDetailViewController: UIViewController {
     }
 }
 
+//MARK: - Data
+
 extension LaunchDetailViewController {
     
     private func bindData() {
@@ -65,6 +67,8 @@ extension LaunchDetailViewController {
         launchpadNameLabel.attributedText = viewData.launchpadText
     }
 }
+
+//MARK: - Layout
 
 extension LaunchDetailViewController {
     

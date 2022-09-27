@@ -14,9 +14,13 @@ protocol UserPreferencesStorage {
 
 struct UserDefaultsPreferencesStorage: UserPreferencesStorage {
     
+    //MARK: - Properties
+    
     static let shared = UserDefaultsPreferencesStorage()
     
     private let defaults = UserDefaults.standard
+    
+    //MARK: - Functionality
     
     func get(key: String) -> Int? {
         return defaults.integer(forKey: key)

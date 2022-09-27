@@ -33,7 +33,7 @@ class LaunchCell: UITableViewCell {
     }
 }
 
-//MARK: Data
+//MARK: - Data
 
 extension LaunchCell {
     

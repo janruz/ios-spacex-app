@@ -9,15 +9,21 @@ import UIKit
 
 class AppCoordinator: Coordinator {
     
+    //MARK: - Properties
+    
     var parent: Coordinator?
     
     private var launchesCoordinator: LaunchesCoordinator?
     
     private var navigationController: UINavigationController
     
+    //MARK: - Lifecycle
+    
     init(navController : UINavigationController) {
         self.navigationController = navController
     }
+    
+    //MARK: - Functionality
     
     func start() {
         if launchesCoordinator == nil {

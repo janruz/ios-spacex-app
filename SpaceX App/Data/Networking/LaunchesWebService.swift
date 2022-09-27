@@ -14,7 +14,11 @@ protocol LaunchesWebService {
 
 struct LaunchesWebServiceImpl: LaunchesWebService {
     
+    //MARK: - Properties
+    
     static let shared = LaunchesWebServiceImpl()
+    
+    //MARK: - Functionality
     
     func getPastLaunches() async -> Result<[LaunchFromApi], Error> {
         let parameters = GetLaunchesParameters(upcoming: false, populate: ["rocket", "launchpad"], pagination: false)
@@ -25,7 +29,7 @@ struct LaunchesWebServiceImpl: LaunchesWebService {
             parameters: parameters,
             encoder: JSONParameterEncoder.default
         )
-            .serializingDecodable(FetchLaunchesResponse.self)
+            .serializingDecodable(GetLaunchesResponse.self)
             .response
         
         if let error = response.error {
@@ -39,7 +43,9 @@ struct LaunchesWebServiceImpl: LaunchesWebService {
         }
     }
     
-    private struct FetchLaunchesResponse: Decodable {
+    //MARK: - Model
+    
+    private struct GetLaunchesResponse: Decodable {
         let docs: [LaunchFromApi]
     }
     
