@@ -122,8 +122,8 @@ enum LaunchSortOrder: Int {
     
     var title: String {
         switch self {
-        case .dateAsc: return "date ascending"
-        case .dateDesc: return "date descending"
+        case .dateAsc: return NSLocalizedString(Strings.Launches.Sorting.dateAsc, comment: "Label for date ascending")
+        case .dateDesc: return NSLocalizedString(Strings.Launches.Sorting.dateDesc, comment: "Label for date descending")
         }
     }
 }

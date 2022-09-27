@@ -118,9 +118,14 @@ extension LaunchesListViewController {
 extension LaunchesListViewController {
     
     private func setup() {
-        navigationItem.title = NSLocalizedString(Strings.RocketLaunches.title, comment: "The title for rocket launches list screen")
+        navigationItem.title = NSLocalizedString(Strings.Launches.title, comment: "The title for rocket launches list screen")
         navigationItem.searchController = searchController
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Order", style: .plain, target: self, action: #selector(orderButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: NSLocalizedString(Strings.order, comment: "Change launches order"),
+            style: .plain,
+            target: self,
+            action: #selector(orderButtonTapped)
+        )
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
@@ -195,7 +200,7 @@ extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate
         let label = UILabel()
         
         if viewModel.isError {
-            label.text = "Oops, something went wrong.\nWe could not fetch the launches."
+            label.text = NSLocalizedString(Strings.Errors.defaultErrorMessage, comment: "Error message")
             label.textColor = .systemRed
             label.textAlignment = .center
         } else if !viewModel.isLoading && !viewModel.isRefreshing {
@@ -203,9 +208,15 @@ extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate
             if viewModel.launches.isEmpty {
                 
                 if viewModel.allLaunches.isEmpty {
-                    label.text = "There are no past launches."
+                    label.text = NSLocalizedString(
+                        Strings.Launches.noLaunches,
+                        comment: "No launches to be displayed"
+                    )
                 } else {
-                    label.text = "No launches matching given search query."
+                    label.text = NSLocalizedString(
+                        Strings.Launches.noLaunchesMatchingSearchQuery,
+                        comment: "No launches match the given search query"
+                    )
                 }
                 
             } else {

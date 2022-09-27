@@ -16,7 +16,10 @@ class IconLabelView: UIView {
     private let label = UILabel()
     
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: imageView.frame.width + 8 + label.frame.width, height: max(imageView.frame.height, label.frame.height))
+        return CGSize(
+            width: imageView.frame.width + 8 + label.frame.width,
+            height: max(imageView.frame.height, label.frame.height)
+        )
     }
     
     //MARK: - Lifecycle

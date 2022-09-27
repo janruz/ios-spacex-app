@@ -76,7 +76,7 @@ extension LaunchDetailViewController {
         dateLabel.textColor = .systemGray
         
         moreDetailsHeadline.font = .preferredFont(forTextStyle: .headline)
-        moreDetailsHeadline.text = "More details"
+        moreDetailsHeadline.text = NSLocalizedString(Strings.moreDetails, comment: "More launch details label")
         
         rocketNameLabel.font = .preferredFont(forTextStyle: .body)
         

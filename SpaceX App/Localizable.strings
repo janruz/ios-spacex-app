@@ -5,13 +5,20 @@
   Created by Jan Růžička on 13.09.2022.
   
 */
-"rocketLaunchesTitle" = "Rocket Launches";
-"rocketLaunchUpcoming" = "Upcoming";
-"rocketLaunchPast" = "Past";
-"rocketLaunchSuccessful" = "Successful";
-"rocketLaunchFailed" = "Failed";
-"rocketLaunchStatusUnknown" = "Unknown";
-"selectRocketLaunchesSortOrder" = "Select launches order";
-"rocketLaunchesSortOrderDateAsc" = "Date ascending";
-"rocketLaunchesSortOrderDateDesc" = "Date descending";
+"launchesTitle" = "Rocket Launches";
+"launchUpcoming" = "Upcoming";
+"launchPast" = "Past";
+"launchSuccessful" = "Successful";
+"launchFailed" = "Failed";
+"launchStatusUnknown" = "Unknown";
+"selectLaunchesSortOrder" = "Select launches order";
+"launchesSortOrderDateAsc" = "date ascending";
+"launchesSortOrderDateDesc" = "date descending";
 "cancel" = "Cancel";
+"rocketLabel" = "Rocket:";
+"launchpadLabel" = "Launchpad:";
+"moreDetails" = "More details";
+"order" = "Order";
+"errorMessage" = "Oops, something went wrong.\nCheck your internet connection.";
+"noLaunches" = "There are no past launches.";
+"noLaunchesMatchingSearchQuery" = "No launches matching given search query.";

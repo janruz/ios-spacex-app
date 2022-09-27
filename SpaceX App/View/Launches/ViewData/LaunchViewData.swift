@@ -38,22 +38,25 @@ struct LaunchViewData {
             
             if successful {
                 successIconName = "checkmark.seal.fill"
-                successLabelText = NSLocalizedString(Strings.RocketLaunches.successful, comment: "Successful rocket launch label")
+                successLabelText = NSLocalizedString(Strings.Launches.successful, comment: "Successful rocket launch label")
                 successColor = .systemGreen
                 
             } else {
                 successIconName = "clear.fill"
-                successLabelText = NSLocalizedString(Strings.RocketLaunches.failed, comment: "Failed rocket launch label")
+                successLabelText = NSLocalizedString(Strings.Launches.failed, comment: "Failed rocket launch label")
                 successColor = .systemRed
             }
             
         } else {
             successIconName = "questionmark.circle.fill"
-            successLabelText = NSLocalizedString(Strings.RocketLaunches.statusUnknown, comment: "Label for rocket launch with unknown status (success/failure)")
+            successLabelText = NSLocalizedString(Strings.Launches.statusUnknown, comment: "Label for rocket launch with unknown status (success/failure)")
             successColor = .systemYellow
         }
         
-        let rocketString = NSMutableAttributedString(string: "Rocket: ", attributes: [:])
+        let rocketString = NSMutableAttributedString(
+            string: NSLocalizedString(Strings.Rockets.label, comment: "Label for rocket information") + " ",
+            attributes: [:]
+        )
         let rocketNameString = NSAttributedString(
             string: launch.rocket.name,
             attributes: [
@@ -63,7 +66,10 @@ struct LaunchViewData {
         rocketString.append(rocketNameString)
         rocketText = rocketString
     
-        let launchpadString = NSMutableAttributedString(string: "Launchpad: ", attributes: [:])
+        let launchpadString = NSMutableAttributedString(
+            string: NSLocalizedString(Strings.Launchpads.label, comment: "Label for launchpad information") + " ",
+            attributes: [:]
+        )
         let launchpadNameString = NSAttributedString(
             string: launch.launchpad.name,
             attributes: [

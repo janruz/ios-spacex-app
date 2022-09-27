@@ -44,13 +44,19 @@ func makeSelectOrderActionSheet(
 ) -> UIAlertController {
     
     let actionSheet = UIAlertController(
-        title: NSLocalizedString(Strings.RocketLaunches.Sorting.title, comment: "Rocket launches sort order selection action sheet title"),
+        title: NSLocalizedString(
+            Strings.Launches.Sorting.title,
+            comment: "Rocket launches sort order selection action sheet title"
+        ),
         message: nil,
         preferredStyle: UIAlertController.Style.actionSheet
     )
     
     actionSheet.addAction(UIAlertAction(
-        title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateAsc, comment: "Rocket launches date asceding sort order"),
+        title: NSLocalizedString(
+            Strings.Launches.Sorting.dateAsc,
+            comment: "Rocket launches date asceding sort order"
+        ).capitalized,
         style: UIAlertAction.Style.default,
         handler: { (action) -> Void in
             onSelect(.dateAsc)
@@ -58,7 +64,10 @@ func makeSelectOrderActionSheet(
     ))
     
     actionSheet.addAction(UIAlertAction(
-        title: NSLocalizedString(Strings.RocketLaunches.Sorting.byDateDesc, comment: "Rocket launches date descending sort order"),
+        title: NSLocalizedString(
+            Strings.Launches.Sorting.dateDesc,
+            comment: "Rocket launches date descending sort order"
+        ).capitalized,
         style: UIAlertAction.Style.default,
         handler: { (action) -> Void in
             onSelect(.dateDesc)
