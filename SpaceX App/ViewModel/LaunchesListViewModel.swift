@@ -20,7 +20,7 @@ class LaunchesListViewModel {
     
     @Published private(set) var sortOrder = LaunchSortOrder.dateDesc
     
-    private var allLaunches = [Launch]()
+    private(set) var allLaunches = [Launch]()
     
     private var searchQuery = ""
     

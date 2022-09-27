@@ -198,9 +198,23 @@ extension LaunchesListViewController: UITableViewDataSource, UITableViewDelegate
             label.text = "Oops, something went wrong.\nWe could not fetch the launches."
             label.textColor = .systemRed
             label.textAlignment = .center
-        } else {
-            label.text = "Ordered by \(viewModel.sortOrder.title)"
+        } else if !viewModel.isLoading && !viewModel.isRefreshing {
+            
+            if viewModel.launches.isEmpty {
+                
+                if viewModel.allLaunches.isEmpty {
+                    label.text = "There are no past launches."
+                } else {
+                    label.text = "No launches matching given search query."
+                }
+                
+            } else {
+                label.text = "Ordered by \(viewModel.sortOrder.title)"
+            }
+            
             label.textColor = .systemGray
+        } else {
+            label.text = ""
         }
         
         let parent = UIView()
